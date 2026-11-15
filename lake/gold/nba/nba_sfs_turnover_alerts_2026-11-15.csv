@@ -1,1 +1,1 @@
-game_id,matchup,direction,away_tov,home_otov,bet,run_id
+game_id,matchup,cst_time,direction,away_tov,home_tov,away_def_rank,home_def_rank,away_off_rank,home_off_rank,favorite,favorite_off_rank,prob_score,bet
