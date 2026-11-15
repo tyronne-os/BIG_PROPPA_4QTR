@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
+import SFSDoubloonBadge from "./SFSDoubloonBadge";
 import type { LeaderRow, LeadersResponse } from "../types";
 import { playerSlugUrl } from "../playerNav";
 
