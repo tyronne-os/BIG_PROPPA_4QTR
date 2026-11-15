@@ -1,0 +1,23 @@
+rank,name,team,position,stat,season_avg,opp_allows,edge,confidence,heat_signal,game_id,opponent,location
+1,Kel'el Ware,MIL,center,reb,6.5,10.5,4.0,0.90,STEADY,401909992,ATL,home
+2,Rui Hachimura,LAC,forward,reb,6.4,9.9,3.5,0.90,STEADY,401909987,CHA,home
+3,Neemias Queta,BOS,center,reb,6.7,10.2,3.5,0.90,STEADY,401909989,DAL,home
+4,Ace Bailey,UTAH,guard,reb,6.3,9.6,3.3,0.90,STEADY,401909988,SA,home
+5,Miles Bridges,PHX,forward,reb,7.3,10.3,3.0,0.90,STEADY,401909986,LAL,home
+6,Brandon Miller,CHA,forward,pts,20.6,23.5,2.9,0.90,STEADY,401909987,LAC,away
+7,Grayson Allen,CHA,guard,ast,3.2,5.9,2.7,0.90,STEADY,401909987,LAC,away
+8,RJ Barrett,TOR,forward,reb,6.7,9.3,2.6,0.90,STEADY,401909990,NY,home
+9,Nickeil Alexander-Walker,ATL,guard,pts,21.5,24.0,2.5,0.90,STEADY,401909992,MIL,away
+10,Cooper Flagg,DAL,forward,reb,7.0,9.3,2.3,0.90,STEADY,401909989,BOS,away
+11,Jalen Johnson,ATL,forward,reb,8.8,10.8,2.0,0.90,STEADY,401909992,MIL,away
+12,Tyler Herro,MIL,guard,pts,21.6,23.4,1.8,0.90,STEADY,401909992,ATL,home
+13,Tyler Herro,MIL,guard,ast,4.3,5.8,1.5,0.90,STEADY,401909992,ATL,home
+14,Shai Gilgeous-Alexander,OKC,guard,ast,4.5,6.0,1.5,0.90,STEADY,401909993,SAC,away
+15,Darius Garland,LAC,guard,pts,20.7,21.9,1.2,0.90,STEADY,401909987,CHA,home
+16,Moussa Diabate,CHA,forward,reb,9.5,10.6,1.1,0.90,STEADY,401909987,LAC,away
+17,Alperen Sengun,HOU,center,reb,9.6,10.4,0.8,0.90,STEADY,401909991,WSH,away
+18,Devin Booker,PHX,guard,ast,5.0,5.7,0.7,0.90,STEADY,401909986,LAL,home
+19,Isaiah Hartenstein,OKC,center,reb,10.5,10.9,0.4,0.90,STEADY,401909993,SAC,away
+20,Keyonte George,UTAH,guard,pts,20.9,21.2,0.3,0.90,STEADY,401909988,SA,home
+21,De'Aaron Fox,SA,guard,ast,5.8,5.9,0.1,0.90,STEADY,401909988,UTAH,away
+22,Alperen Sengun,HOU,center,pts,23.1,23.2,0.1,0.90,STEADY,401909991,WSH,away
