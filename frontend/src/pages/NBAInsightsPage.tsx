@@ -7,6 +7,7 @@
  */
 import { useEffect, useState } from "react";
 import { api } from "../api";
+import SFSDoubloonBadge from "../components/SFSDoubloonBadge";
 import type {
   NBAInsightNugget,
   NBAMatchupCorrelation,
@@ -35,13 +36,20 @@ function confidenceColor(c: number | null): string {
 }
 
 function NuggetCard({ n }: { n: NBAInsightNugget }) {
+  // Mock doubloon tier from confidence for uniform UI - replace with real SFS metrics from API
+  const tier = n.confidence >= 0.85 ? 'green_doubloon' : n.confidence >= 0.70 ? 'orange_doubloon' : 'crimson_doubloon';
+  const score = Math.round(n.confidence * 100);
+  
   return (
     <div style={{ background: C.card2, border: `1px solid ${n.confidence >= 0.85 ? C.gold : C.edge}`, borderRadius: 12, padding: "12px 14px", marginBottom: 8, display: "flex", flexDirection: "column", gap: 6 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <span style={{ fontSize: 12, fontWeight: 800, color: C.text }}>{n.title}</span>
-        <span style={{ fontFamily: MONO, fontSize: 9, fontWeight: 800, color: confidenceColor(n.confidence), border: `1px solid ${confidenceColor(n.confidence)}44`, borderRadius: 4, padding: "1px 6px" }}>
-          {Math.round(n.confidence * 100)}%
-        </span>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <SFSDoubloonBadge tier={tier} score={score} reason={n.insight_kind} />
+          <span style={{ fontFamily: MONO, fontSize: 9, fontWeight: 800, color: confidenceColor(n.confidence), border: `1px solid ${confidenceColor(n.confidence)}44`, borderRadius: 4, padding: "1px 6px" }}>
+            {Math.round(n.confidence * 100)}%
+          </span>
+        </div>
       </div>
       <span style={{ fontSize: 13, color: C.text, lineHeight: 1.5 }}>{n.body}</span>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 4 }}>
