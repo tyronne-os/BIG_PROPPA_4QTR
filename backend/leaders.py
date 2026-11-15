@@ -78,6 +78,14 @@ CATEGORY_SOURCES = {
     "FIELD GOALS": ("player_kicking_week", "fg_made"),
     "TARGETS": ("player_receiving_week", "targets"),
     "COMBO": ("player_combo_week", "all_purpose_yards"),
+    "POINTS": None,
+    "REBOUNDS": None,
+    "3 PTS": None,
+    "ASSISTS": None,
+    "DOUBLE DOUBLE": None,
+    "TRIPLE DOUBLE": None,
+    "BLOCKS": None,
+    "STEALS": None,
 }
 
 
@@ -340,9 +348,13 @@ def _leaders(category: str) -> dict:
             "rows": out,
         }
 
-    src, stat_col = CATEGORY_SOURCES.get(category, (None, None))
-    if src is None:
+    entry = CATEGORY_SOURCES.get(category)
+    if entry is None:
+        # Unknown category, or an NBA/future-league category with no data source yet
+        if category in CATEGORY_SOURCES:
+            return {"category": category, "sourceStatus": "ok", "rows": [], "bplVersion": None}
         return {"category": category, "sourceStatus": "error", "rows": [], "error": "unknown category"}
+    src, stat_col = entry
     rows = _rank(_sum_by_player(src, stat_col))
     market = bpl.LEADER_MARKET.get(category)
     if market:

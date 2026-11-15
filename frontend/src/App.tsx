@@ -20,13 +20,15 @@ import BooAgentPanel from "./components/BooAgentPanel";
 import RampIndex from "./components/RampIndex";
 import MyBooTab from "./components/MyBooTab";
 import OddsTab from "./components/OddsTab";
+import H2HTab from "./components/H2HTab";
+import NBALeadersTab from "./components/NBALeadersTab";
 import LiveTicker from "./components/LiveTicker";
 import CollegeTab from "./components/CollegeTab";
 import { api } from "./api";
 import type { TicketCtx } from "./components/h2hShared";
 import type { ChartIndexRow, PlayerPropChart } from "./types";
 
-const VIEW_TABS = ["player", "leaders", "h2h", "matchups", "ramp", "college", "engine", "news", "queries", "myboo", "odds"] as const;
+const VIEW_TABS = ["player", "leaders", "nba", "h2h", "matchups", "ramp", "college", "engine", "news", "queries", "myboo", "odds"] as const;
 type ViewTab = (typeof VIEW_TABS)[number];
 
 const edgeTypes: EdgeTypes = { animatedPulse: AnimatedPulseEdge };
@@ -234,7 +236,7 @@ export default function App({ initialTab }: { initialTab?: ViewTab }) {
     log("Display cleared");
   }
 
-  const canvasCapable = tab !== "leaders" && tab !== "matchups" && tab !== "ramp" && tab !== "college" && tab !== "myboo" && tab !== "odds";
+  const canvasCapable = tab !== "leaders" && tab !== "h2h" && tab !== "nba" && tab !== "matchups" && tab !== "ramp" && tab !== "college" && tab !== "myboo" && tab !== "odds";
 
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100vw", height: "100vh", background: "var(--bp-page-bg)", color: "var(--bp-fg)" }}>
@@ -309,6 +311,24 @@ export default function App({ initialTab }: { initialTab?: ViewTab }) {
             )}
             {tab === "leaders" && (
               <LeadersTab
+                onOpenPlayer={(id, market, ctx) => {
+                  setTicketCtx(ctx ?? null);
+                  setPlayerMarket(market);
+                  setSelectedPlayerId(id);
+                  setTab("player");
+                }}
+              />
+            )}
+            {tab === "nba" && (
+              <NBALeadersTab
+                onOpenPlayer={(id) => {
+                  setSelectedPlayerId(id);
+                  setTab("player");
+                }}
+              />
+            )}
+            {tab === "h2h" && (
+              <H2HTab
                 onOpenPlayer={(id, market, ctx) => {
                   setTicketCtx(ctx ?? null);
                   setPlayerMarket(market);

@@ -100,7 +100,7 @@ export const api = {
       "/api/chart/team_ats_heatmap"
     ),
   dvp: () => get<{ sourceStatus: string; rows: { team: string; toxicity: number; category: string }[] }>("/api/chart/dvp"),
-  parlaysEarly: (window = "early") => get<EarlyResponse>(`/api/parlays/early?window=${window}`),
+  parlaysEarly: (window = "early", date?: string) => get<EarlyResponse>(`/api/parlays/early?window=${window}${date ? `&date=${encodeURIComponent(date)}` : ""}`),
   parlaysEngine: () => get<EngineResponse>("/api/parlays/engine"),
   newsArticles: () => get<{ articles: NewsArticle[] }>("/api/news/articles"),
   pow: () => get<PowSummary>("/api/pow"),

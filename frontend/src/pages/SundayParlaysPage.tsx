@@ -129,10 +129,16 @@ export default function SundayParlaysPage() {
 
   const [early, setEarly] = useState<EarlyResponse | null>(null);
   const [evening, setEvening] = useState<EarlyResponse | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string>(() => {
+    try {
+      return new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD
+    } catch { return ""; }
+  });
+
   useEffect(() => {
-    api.parlaysEarly("early").then(setEarly).catch(() => setEarly(null));
-    api.parlaysEarly("evening").then(setEvening).catch(() => setEvening(null));
-  }, []);
+    api.parlaysEarly("early", selectedDate).then(setEarly).catch(() => setEarly(null));
+    api.parlaysEarly("evening", selectedDate).then(setEvening).catch(() => setEvening(null));
+  }, [selectedDate]);
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bp-page-bg)", color: "var(--bp-fg)" }}>
@@ -177,6 +183,17 @@ export default function SundayParlaysPage() {
               </button>
             )}
             {saveMsg && <span style={{ fontSize: 11, color: "#2ee6a6", fontWeight: 700 }}>{saveMsg}</span>}
+
+            {/* Date picker — view parlays for a specific date */}
+            <span style={{ display: "flex", alignItems: "center", gap: 6, padding: "0 6px", border: "1px solid #6b4a1c", borderRadius: 999, background: "rgba(201,165,78,0.10)" }}>
+              <span style={{ fontSize: 11, color: "#9a8fb0" }}>DATE</span>
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={e => setSelectedDate(e.target.value)}
+                style={{ height: 28, padding: "0 6px", border: 0, borderRadius: 6, background: "transparent", color: "#f1dc92", fontSize: 11, fontWeight: 700, fontFamily: "var(--font-mono, monospace)", cursor: "pointer" }}
+              />
+            </span>
 
             <span style={{ display: "flex", alignItems: "center", gap: 8, height: 34, padding: "0 14px", border: "1px solid #6b4a1c", borderRadius: 999, fontSize: 12, fontWeight: 700, color: "#f1dc92" }}>
               WAGER <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 14 }}>${wager}</span>

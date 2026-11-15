@@ -476,12 +476,12 @@ def api_parlays_engine():
 
 
 @app.get("/api/parlays/early")
-def api_parlays_early(window: str = "early"):
+def api_parlays_early(window: str = "early", date: str | None = None):
     """Featured kickoff-window tickets: WR 60 club, RB combos, overs, plus two Crazy Horses. No TD-scorer legs."""
     import early_slate
     if window not in early_slate.WINDOWS:
         raise HTTPException(400, f"window must be one of {sorted(early_slate.WINDOWS)}")
-    return early_slate.build(window)
+    return early_slate.build(window, today=date)
 
 
 @app.get("/api/jimmy/scan")
