@@ -4,10 +4,11 @@ import NavBar from "../components/NavBar";
 import LiveTicker from "../components/LiveTicker";
 import TicketCard, { fromThemed } from "../components/TicketCard";
 import MyTickets from "../components/MyTickets";
+import EarlyHero from "../components/EarlyHero";
 import { api, h2hToken } from "../api";
 import Throwdown, { type ThrowdownData } from "./Throwdown";
 import { type MatchupData } from "./MatchupHeatMap";
-import type { ParlaySlip } from "../types";
+import type { EarlyResponse, ParlaySlip } from "../types";
 import { PlayerLink } from "../playerLink";
 
 const STORAGE_KEY = "bp_parlay_unlocked";
@@ -114,6 +115,8 @@ export default function ParlaysPage({ variant = "thursday" }: { variant?: "thurs
   const [td, setTd] = useState<ThrowdownData | null>(null);
   const [showRegular, setShowRegular] = useState(false);
   const [mu, setMu] = useState<MatchupData | null>(null);
+  const [morning, setMorning] = useState<EarlyResponse | null>(null);
+  const [evening, setEvening] = useState<EarlyResponse | null>(null);
 
   // Pre-fetch slips immediately (no gate) so they're ready the moment the passcode is entered.
   useEffect(() => {
@@ -122,6 +125,20 @@ export default function ParlaysPage({ variant = "thursday" }: { variant?: "thurs
     api.matchup(variant === "parlay" ? "thursday" : variant).then((d: MatchupData) => setMu(d?.active ? d : null)).catch(() => setMu(null));
     const deepDive = variant === "monday" ? api.monday() : variant === "sunday-night" ? api.sundayNight() : api.throwdown();
     deepDive.then((d: ThrowdownData) => setTd(d?.active ? d : null)).catch(() => setTd(null));
+
+    // NFL morning / evening parlay windows. NFL rule: every slip must carry at
+    // least two high-probability legs before it's shown.
+    const loadWindow = (win: "early" | "evening", set: (r: EarlyResponse | null) => void) => {
+      api.parlaysEarly(win).then((r) => {
+        const filtered = {
+          ...r,
+          slips: (r.slips || []).filter((s) => (s.legs || []).length >= 2),
+        };
+        set(filtered);
+      }).catch(() => set(null));
+    };
+    loadWindow("early", setMorning);
+    loadWindow("evening", setEvening);
   }, [variant]);
 
   const wager = 5;
@@ -164,6 +181,26 @@ export default function ParlaysPage({ variant = "thursday" }: { variant?: "thurs
 
       {/* Full nav menu */}
       <NavBar activeTab={variant === "monday" ? "monday" : variant === "sunday-night" ? "sunday-night" : variant === "parlay" ? "parlay" : "throwdown"} />
+
+      {/* Morning / evening NFL parlay windows — real tickets from the lake's
+         Big Proppa Line. NFL rule: every slip carries at least two legs, so a
+         ticket only appears when it clears that bar. NBA min-3-leg tickets
+         appear here once NBA player-prop data is loaded into the lake. */}
+      {unlocked && (
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px 10px", display: "flex", flexDirection: "column", gap: 16 }}>
+          {morning && (
+            <EarlyHero early={morning} window="early" />
+          )}
+          {evening && (
+            <EarlyHero early={evening} window="evening" />
+          )}
+          {!morning && !evening && (
+            <div style={{ color: "var(--bp-muted)", fontSize: 13, textAlign: "center", padding: "20px 0" }}>
+              Building the morning and evening parlay boards…
+            </div>
+          )}
+        </div>
+      )}
 
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 20px", display: "flex", flexDirection: "column", gap: 24 }}>
 
