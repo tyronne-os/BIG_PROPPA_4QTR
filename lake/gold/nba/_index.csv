@@ -6,3 +6,5 @@ nba_matchup_correlation,nba_matchup_correlation,one row per team per game (match
 nba_player_prop_correlation,nba_player_prop_correlation,one row per player per game (prop edge),72,2026-11-15T13:46:26.281748-06:00,espn.com + model,ok
 nba_insight_nugget,nba_insight_nugget,one row per insight per game,32,2026-11-15T13:46:30.355809-06:00,espn.com + model,ok
 nba_game_top_nugget,nba_game_top_nugget,one row per game (highest confidence insight),9,2026-11-15T13:46:30.355823-06:00,espn.com + model,ok
+nba_team_turnovers_per_game,nba_team_turnovers_per_game,one row per NBA team per season (TeamRankings),30,2026-11-15T14:02:03.546103-06:00,teamrankings.com,ok
+nba_team_opponent_turnovers,nba_team_opponent_turnovers,one row per NBA team per season (TeamRankings),30,2026-11-15T14:02:03.546103-06:00,teamrankings.com,ok
