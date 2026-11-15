@@ -1,0 +1,8 @@
+chart_name,source_table_or_view,grain,row_count,last_exported_at_utc,source_name,status
+nba_team_season,nba_team_season,one row per NBA team per season (ESPN standings),30,2026-11-15T13:39:39.122266-06:00,espn.com,ok
+nba_game_live,nba_game_live,one row per NBA game (live scoreboard),9,2026-11-15T13:39:39.122266-06:00,espn.com,ok
+nba_player_leaders,nba_player_leaders,one row per player stat leader per game (ESPN scoreboard leaders),72,2026-11-15T13:39:39.122266-06:00,espn.com,ok
+nba_matchup_correlation,nba_matchup_correlation,one row per team per game (matchup edge),18,2026-11-15T13:46:26.281748-06:00,espn.com + model,ok
+nba_player_prop_correlation,nba_player_prop_correlation,one row per player per game (prop edge),72,2026-11-15T13:46:26.281748-06:00,espn.com + model,ok
+nba_insight_nugget,nba_insight_nugget,one row per insight per game,32,2026-11-15T13:46:30.355809-06:00,espn.com + model,ok
+nba_game_top_nugget,nba_game_top_nugget,one row per game (highest confidence insight),9,2026-11-15T13:46:30.355823-06:00,espn.com + model,ok

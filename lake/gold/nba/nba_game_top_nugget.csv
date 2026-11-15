@@ -1,0 +1,10 @@
+season,game_id,insight_kind,title,body,confidence,edge_value,edge_label
+2026,401909985,GOOD_VS_BAD_TEAM,IND has the edge vs PHI,IND projects 7.6 pts better per game vs PHI's defense (1.8 offense vs defense edge). IND is the away team.,1.0,7.6,7.6 pts/game edge
+2026,401909986,GOOD_VS_BAD_TEAM,LAL has the edge vs PHX,LAL projects 17.2 pts better per game vs PHX's defense (6.1 offense vs defense edge). LAL is the away team.,1.0,17.2,17.2 pts/game edge
+2026,401909987,GOOD_VS_BAD_TEAM,LAC has the edge vs CHA,LAC projects 43.2 pts better per game vs CHA's defense (2.7 offense vs defense edge). LAC is the home team.,1.0,43.2,43.2 pts/game edge
+2026,401909988,BLOWOUT_RISK,Spurs blowout risk,Spurs has a 100% blowout-risk score (13.3 pt differential per game). Expect a double-digit lead if this trend holds.,1.0,1.0,100% blowout risk
+2026,401909989,GOOD_VS_BAD_TEAM,DAL has the edge vs BOS,DAL projects 18.8 pts better per game vs BOS's defense (10.4 offense vs defense edge). DAL is the away team.,1.0,18.8,18.8 pts/game edge
+2026,401909990,GOOD_VS_BAD_TEAM,TOR has the edge vs NY,TOR projects 27.2 pts better per game vs NY's defense (10.6 offense vs defense edge). TOR is the home team.,1.0,27.2,27.2 pts/game edge
+2026,401909991,BLOWOUT_RISK,Rockets blowout risk,Rockets has a 100% blowout-risk score (8.8 pt differential per game). Expect a double-digit lead if this trend holds.,1.0,1.0,100% blowout risk
+2026,401909992,GOOD_VS_BAD_TEAM,ATL has the edge vs MIL,ATL projects 17.2 pts better per game vs MIL's defense (-2.0 offense vs defense edge). ATL is the away team.,1.0,17.2,17.2 pts/game edge
+2026,401909993,GOOD_VS_BAD_TEAM,SAC has the edge vs OKC,SAC projects 21.0 pts better per game vs OKC's defense (0.8 offense vs defense edge). SAC is the home team.,1.0,21.0,21.0 pts/game edge

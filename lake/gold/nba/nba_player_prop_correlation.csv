@@ -1,0 +1,73 @@
+season,game_id,athlete_id,name,team,stat,position,opponent,location,season_pts,season_reb,season_ast,season_ts_pct,recent_pts,recent_reb,recent_ast,opp_def_pts_allowed,opp_def_reb_allowed,opp_def_ast_allowed,usage_matchup_edge,form_edge,prop_confidence,heat_signal,source_url,ingest_run_id
+2026,401909985,3133603,Kelly Oubre Jr.,IND,pts,guard,PHI,away,14.0,,,,14.0,,,21.9,,,7.9,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909985,4017837,Ivica Zubac,IND,reb,center,PHI,away,,5.0,,,,5.0,,9.8,9.8,,4.8,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909985,4592829,Quenton Jackson,IND,ast,guard,PHI,away,,,4.0,,,,4.0,5.5,,5.5,1.5,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909985,3133603,Kelly Oubre Jr.,IND,rating,guard,PHI,away,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909985,3917376,Jaylen Brown,PHI,pts,guard,IND,home,20.0,,,,20.0,,,22.6,,,2.6,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909985,1966,LeBron James,PHI,reb,forward,IND,home,,6.0,,,,6.0,,10.2,10.2,,4.2,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909985,1966,LeBron James,PHI,ast,forward,IND,home,,,6.0,,,,6.0,5.7,,5.7,-0.3,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909985,4431678,Tyrese Maxey,PHI,rating,guard,IND,home,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909986,3945274,Luka Doncic,LAL,pts,guard,PHX,away,38.6,,,,38.6,,,23.2,,,-15.4,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909986,4433136,Walker Kessler,LAL,reb,center,PHX,away,,10.8,,,,10.8,,10.4,10.4,,-0.4,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909986,3945274,Luka Doncic,LAL,ast,guard,PHX,away,,,7.6,,,,7.6,5.8,,5.8,-1.8,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909986,3945274,Luka Doncic,LAL,rating,guard,PHX,away,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909986,3136193,Devin Booker,PHX,pts,guard,LAL,home,25.5,,,,25.5,,,22.8,,,-2.7,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909986,4066383,Miles Bridges,PHX,reb,forward,LAL,home,,7.3,,,,7.3,,10.3,10.3,,3.0,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909986,3136193,Devin Booker,PHX,ast,guard,LAL,home,,,5.0,,,,5.0,5.7,,5.7,0.7,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909986,3136193,Devin Booker,PHX,rating,guard,LAL,home,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909987,4433287,Brandon Miller,CHA,pts,forward,LAC,away,20.6,,,,20.6,,,23.5,,,2.9,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909987,4433249,Moussa Diabate,CHA,reb,forward,LAC,away,,9.5,,,,9.5,,10.6,10.6,,1.1,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909987,3135045,Grayson Allen,CHA,ast,guard,LAC,away,,,3.2,,,,3.2,5.9,,5.9,2.7,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909987,4396971,Naz Reid,CHA,rating,center,LAC,away,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909987,4396907,Darius Garland,LAC,pts,guard,CHA,home,20.7,,,,20.7,,,21.9,,,1.2,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909987,4066648,Rui Hachimura,LAC,reb,forward,CHA,home,,6.4,,,,6.4,,9.9,9.9,,3.5,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909987,4396907,Darius Garland,LAC,ast,guard,CHA,home,,,6.9,,,,6.9,5.5,,5.5,-1.4,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909987,4396907,Darius Garland,LAC,rating,guard,CHA,home,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909988,5104157,Victor Wembanyama,SA,pts,forward,UTAH,away,28.8,,,,28.8,,,23.7,,,-5.1,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909988,5104157,Victor Wembanyama,SA,reb,forward,UTAH,away,,11.7,,,,11.7,,10.7,10.7,,-1.0,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909988,4066259,De'Aaron Fox,SA,ast,guard,UTAH,away,,,5.8,,,,5.8,5.9,,5.9,0.1,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909988,5104157,Victor Wembanyama,SA,rating,forward,UTAH,away,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909988,4433627,Keyonte George,UTAH,pts,guard,SA,home,20.9,,,,20.9,,,21.2,,,0.3,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909988,4873138,Ace Bailey,UTAH,reb,guard,SA,home,,6.3,,,,6.3,,9.6,9.6,,3.3,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909988,4433627,Keyonte George,UTAH,ast,guard,SA,home,,,6.5,,,,6.5,5.3,,5.3,-1.2,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909988,4433627,Keyonte George,UTAH,rating,guard,SA,home,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909989,5041939,Cooper Flagg,DAL,pts,forward,BOS,away,24.1,,,,24.1,,,20.6,,,-3.5,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909989,5041939,Cooper Flagg,DAL,reb,forward,BOS,away,,7.0,,,,7.0,,9.3,9.3,,2.3,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909989,5041939,Cooper Flagg,DAL,ast,forward,BOS,away,,,6.4,,,,6.4,5.2,,5.2,-1.2,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909989,5041939,Cooper Flagg,DAL,rating,forward,BOS,away,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909989,4065648,Jayson Tatum,BOS,pts,forward,DAL,home,26.3,,,,26.3,,,22.7,,,-3.6,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909989,4397424,Neemias Queta,BOS,reb,center,DAL,home,,6.7,,,,6.7,,10.2,10.2,,3.5,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909989,4065648,Jayson Tatum,BOS,ast,forward,DAL,home,,,7.5,,,,7.5,5.7,,5.7,-1.8,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909989,4065648,Jayson Tatum,BOS,rating,forward,DAL,home,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909990,3934672,Jalen Brunson,NY,pts,guard,TOR,away,26.6,,,,26.6,,,22.6,,,-4.0,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909990,3136195,Karl-Anthony Towns,NY,reb,center,TOR,away,,13.7,,,,13.7,,10.2,10.2,,-3.5,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909990,3934672,Jalen Brunson,NY,ast,guard,TOR,away,,,5.7,,,,5.7,5.6,,5.6,-0.1,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909990,3136195,Karl-Anthony Towns,NY,rating,center,TOR,away,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909990,4395625,RJ Barrett,TOR,pts,forward,NY,home,21.3,,,,21.3,,,20.7,,,-0.6,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909990,4395625,RJ Barrett,TOR,reb,forward,NY,home,,6.7,,,,6.7,,9.3,9.3,,2.6,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909990,4432241,Jamal Shead,TOR,ast,guard,NY,home,,,6.8,,,,6.8,5.2,,5.2,-1.5,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909990,4395625,RJ Barrett,TOR,rating,forward,NY,home,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909991,4871144,Alperen Sengun,HOU,pts,center,WSH,away,23.1,,,,23.1,,,23.2,,,0.1,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909991,4871144,Alperen Sengun,HOU,reb,center,WSH,away,,9.6,,,,9.6,,10.4,10.4,,0.8,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909991,4871144,Alperen Sengun,HOU,ast,center,WSH,away,,,7.6,,,,7.6,5.8,,5.8,-1.8,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909991,4871144,Alperen Sengun,HOU,rating,center,WSH,away,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909991,6583,Anthony Davis,WSH,pts,forward,HOU,home,25.6,,,,25.6,,,21.5,,,-4.1,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909991,6583,Anthony Davis,WSH,reb,forward,HOU,home,,10.5,,,,10.5,,9.7,9.7,,-0.8,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909991,4277905,Trae Young,WSH,ast,guard,HOU,home,,,8.8,,,,8.8,5.4,,5.4,-3.4,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909991,6583,Anthony Davis,WSH,rating,forward,HOU,home,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909992,4278039,Nickeil Alexander-Walker,ATL,pts,guard,MIL,away,21.5,,,,21.5,,,24.0,,,2.5,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909992,4701230,Jalen Johnson,ATL,reb,forward,MIL,away,,8.8,,,,8.8,,10.8,10.8,,2.0,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909992,4701230,Jalen Johnson,ATL,ast,forward,MIL,away,,,7.5,,,,7.5,6.0,,6.0,-1.5,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909992,4701230,Jalen Johnson,ATL,rating,forward,MIL,away,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909992,4395725,Tyler Herro,MIL,pts,guard,ATL,home,21.6,,,,21.6,,,23.4,,,1.8,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909992,5105623,Kel'el Ware,MIL,reb,center,ATL,home,,6.5,,,,6.5,,10.5,10.5,,4.0,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909992,4395725,Tyler Herro,MIL,ast,guard,ATL,home,,,4.3,,,,4.3,5.8,,5.8,1.5,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909992,4395725,Tyler Herro,MIL,rating,guard,ATL,home,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909993,4278073,Shai Gilgeous-Alexander,OKC,pts,guard,SAC,away,30.5,,,,30.5,,,24.2,,,-6.3,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909993,4222252,Isaiah Hartenstein,OKC,reb,center,SAC,away,,10.5,,,,10.5,,10.9,10.9,,0.4,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909993,4278073,Shai Gilgeous-Alexander,OKC,ast,guard,SAC,away,,,4.5,,,,4.5,6.0,,6.0,1.5,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909993,4278073,Shai Gilgeous-Alexander,OKC,rating,guard,SAC,away,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909993,5142620,Darius Acuff Jr.,SAC,pts,guard,OKC,home,25.4,,,,25.4,,,21.5,,,-3.9,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909993,3155942,Domantas Sabonis,SAC,reb,forward,OKC,home,,13.2,,,,13.2,,9.7,9.7,,-3.5,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909993,5142620,Darius Acuff Jr.,SAC,ast,guard,OKC,home,,,7.2,,,,7.2,5.4,,5.4,-1.8,0.0,0.9,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00
+2026,401909993,5142620,Darius Acuff Jr.,SAC,rating,guard,OKC,home,,,,,,,,,,,,0.0,0.7,STEADY,espn.com (scoreboard leaders + standings),2026-11-15T13:39:39.122266-06:00

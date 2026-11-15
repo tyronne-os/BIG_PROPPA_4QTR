@@ -721,3 +721,113 @@ export interface MatchupOfTheDayResponse {
   date: string;
   games: MOTDGame[];
 }
+
+// ── NBA correlations & insights (ESPN + SFS) ──────────────────────────────
+
+export interface NBAMatchupCorrelation {
+  season: number;
+  game_id: string;
+  team: string;
+  opponent: string;
+  location: string;
+  team_ppg: number | null;
+  team_opp_ppg: number | null;
+  team_point_diff: number | null;
+  team_win_pct: number | null;
+  opp_ppg: number | null;
+  opp_opp_ppg: number | null;
+  opp_point_diff: number | null;
+  opp_win_pct: number | null;
+  team_last10_win_pct: number | null;
+  opp_last10_win_pct: number | null;
+  team_streak_num: number;
+  opp_streak_num: number;
+  offense_vs_defense_edge: number | null;
+  defense_vs_offense_edge: number | null;
+  net_edge: number | null;
+  good_vs_bad_signal: string;
+  confidence: number;
+  blowout_risk: number;
+  momentum_score: number;
+}
+
+export interface NBAPlayerPropCorrelation {
+  season: number;
+  game_id: string;
+  athlete_id: string;
+  name: string;
+  team: string;
+  stat: string;
+  position: string;
+  opponent: string;
+  location: string;
+  season_pts: number | null;
+  season_reb: number | null;
+  season_ast: number | null;
+  season_ts_pct: number | null;
+  recent_pts: number | null;
+  recent_reb: number | null;
+  recent_ast: number | null;
+  opp_def_pts_allowed: number | null;
+  opp_def_reb_allowed: number | null;
+  opp_def_ast_allowed: number | null;
+  usage_matchup_edge: number | null;
+  form_edge: number;
+  prop_confidence: number;
+  heat_signal: string;
+}
+
+export interface NBAInsightNugget {
+  season: number;
+  game_id: string;
+  insight_kind: string;
+  title: string;
+  body: string;
+  confidence: number;
+  teams: string;
+  players: string;
+  edge_value: number | null;
+  edge_label: string | null;
+}
+
+export interface NBATopNugget {
+  season: number;
+  game_id: string;
+  insight_kind: string;
+  title: string;
+  body: string;
+  confidence: number;
+  edge_value: number | null;
+  edge_label: string | null;
+}
+
+export interface NBAStandingsTeam {
+  id: string;
+  location: string;
+  name: string;
+  abbreviation: string;
+  displayName: string;
+  logo: string | null;
+  stats: Record<string, string | null>;
+}
+
+export interface NBAStandingsConference {
+  name: string;
+  abbreviation: string;
+  teams: NBAStandingsTeam[];
+}
+
+export interface NBAStandingsResponse {
+  conferences: NBAStandingsConference[];
+}
+
+export interface NBAGameLive {
+  gameId: string;
+  away: string;
+  home: string;
+  awayScore: number;
+  homeScore: number;
+  status: string;
+  spread: string | null;
+  total: number | null;
+}

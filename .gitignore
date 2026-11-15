@@ -14,6 +14,8 @@ lake/gold/espn/*
 !lake/*/.gitkeep
 !lake/gold/nfl/
 !lake/gold/nfl/*.csv
+!lake/gold/nba/
+!lake/gold/nba/*.csv
 lake/gold/nfl/player_photos/*.png
 __pycache__/
 .venv/

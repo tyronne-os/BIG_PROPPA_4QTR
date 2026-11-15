@@ -1392,7 +1392,7 @@ def api_espn_game(id: str, lg: str = "nfl"):
     if lg not in ("nfl", "cfb"):
         raise HTTPException(400, "lg must be nfl or cfb")
     return espn.game_detail(id, lg) or {"error": "ESPN has no data for that game right now"}
-
+# ── NBA endpoints (ESPN streaming + correlation models) ──────────────────────@app.get("/api/nba/matchups")def api_nba_matchups():    """NBA matchup correlations: good-vs-bad team edges, momentum, blowout risk."""    import data_nba    return {"matchups": data_nba.load("nba_matchup_correlation")}@app.get("/api/nba/insights")def api_nba_insights():    """NBA insight nuggets: good-vs-bad team, blowout risk, momentum, player prop edges."""    import data_nba    return {"insights": data_nba.load("nba_insight_nugget")}@app.get("/api/nba/props")def api_nba_props():    """NBA player prop correlations: per-player edge vs opponent defensive allowance."""    import data_nba    return {"props": data_nba.load("nba_player_prop_correlation")}@app.get("/api/nba/top-nugget")def api_nba_top_nugget():    """Top insight nugget per game (highest confidence)."""    import data_nba    return {"top_nuggets": data_nba.load("nba_game_top_nugget")}@app.get("/api/nba/standings")def api_nba_standings():    """NBA season standings by conference with team stats."""    import espn_nba    return espn_nba.standings()@app.get("/api/nba/scoreboard")def api_nba_scoreboard():    """NBA live scoreboard with team stats and player leaders."""    import espn_nba    return {"games": espn_nba.scoreboard()}
 
 @app.get("/api/espn/matchup-of-the-day")
 def api_espn_matchup_of_the_day(date: str | None = None):

@@ -4,6 +4,7 @@ const TOP_TABS = [
   { id: "leaders", label: "LEADERS", href: "/leaders?cat=targets" },
   { id: "nba",     label: "NBA",     href: "/nba?cat=points" },
   { id: "motd",    label: "MOTD",    href: "/matchup-of-the-day" },
+  { id: "insights", label: "INSIGHTS", href: "/nba-insights" },
   { id: "h2h",     label: "H2H",     href: "/h2h?cat=targets" },
   { id: "parlay",  label: "PARLAY",  href: "/parlay" },
   { id: "myboo",   label: "MY BOO",  href: "/myboo" },
@@ -32,6 +33,7 @@ export default function NavBar({ activeTab }: NavBarProps) {
   const currentTab = activeTab ?? (p.startsWith("/leaders") || p.startsWith("/player") ? "leaders"
     : p.startsWith("/nba") ? "nba"
     : p.startsWith("/matchup-of-the-day") ? "motd"
+    : p.startsWith("/nba-insights") ? "insights"
     : p.startsWith("/h2h") ? "h2h"
     : p === "/parlay" || p === "/throwdown" || p === "/monday" || p === "/sunday-night" || p === "/parlays" ? "parlay"
     : p.startsWith("/myboo") ? "myboo"
