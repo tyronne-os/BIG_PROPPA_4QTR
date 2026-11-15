@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Prop Board · Player Props</title>
+<style>
+  :root{
+    --bg:#050308; --panel:#0b0710; --panel2:#120c1a; --edge:#2a1e36;
+    --text:#f1ecf8; --mute:#9a8fb0; --gold:#d9b45a; --goldHi:#f1dc92; --goldDeep:#8a6224;
+    --purple:#8b5cf6; --purpleSoft:#b79cff; --green:#22c55e; --red:#ef4444;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);}
+  a{color:inherit}
+  .top{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,#0a0610f2,#0a0610e6);backdrop-filter:blur(8px);border-bottom:1px solid var(--edge)}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+  .nav{display:flex;gap:6px;align-items:center;padding:10px 0;flex-wrap:wrap}
+  .nav .brand{font-weight:900;letter-spacing:.12em;font-size:13px;margin-right:10px;
+    background:linear-gradient(90deg,var(--goldHi),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .pill{display:inline-flex;align-items:center;height:30px;padding:0 13px;border-radius:999px;border:1px solid var(--edge);
+    background:var(--panel);color:var(--text);font-size:11px;font-weight:800;letter-spacing:.08em;text-decoration:none;cursor:pointer}
+  .pill:hover{border-color:var(--goldDeep)}
+  .pill.on{border-color:var(--gold);background:rgba(201,165,78,.14);color:var(--goldHi)}
+  header.hero{padding:26px 0 8px}
+  .kicker{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--purpleSoft)}
+  h1{margin:4px 0 2px;font-size:38px;font-weight:900;letter-spacing:.02em;
+    background:linear-gradient(90deg,var(--goldHi),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--mute);font-size:13px;margin:2px 0 0}
+  .stamp{display:inline-flex;gap:6px;align-items:center;margin-top:10px;font-size:11px;color:var(--mute);
+    font-family:var(--mono);border:1px solid var(--edge);border-radius:999px;padding:5px 10px;background:var(--panel)}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0 12px}
+  input[type=search]{flex:1;min-width:220px;background:var(--panel);border:1px solid var(--edge);color:var(--text);
+    border-radius:10px;padding:10px 14px;font-size:14px;outline:none}
+  input[type=search]:focus{border-color:var(--purple)}
+  select{background:var(--panel);border:1px solid var(--edge);color:var(--text);border-radius:10px;padding:10px 12px;font-size:13px}
+  .tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:thin}
+  .tab{white-space:nowrap;border:1px solid var(--edge);background:var(--panel);color:var(--mute);border-radius:8px;
+    padding:7px 11px;font-size:11px;font-weight:800;letter-spacing:.05em;cursor:pointer}
+  .tab:hover{color:var(--text);border-color:var(--purple)}
+  .tab.on{color:#0b0512;background:linear-gradient(180deg,var(--goldHi),var(--gold));border-color:var(--gold)}
+  .board{border:1px solid var(--edge);border-radius:14px;overflow:hidden;background:var(--panel);margin-bottom:40px}
+  .game{border-bottom:1px solid var(--edge)}
+  .game:last-child{border-bottom:0}
+  .ghead{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 14px;
+    background:linear-gradient(90deg,rgba(139,92,246,.13),transparent);border-bottom:1px solid var(--edge);
+    font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--purpleSoft)}
+  .ghead .meta{font-family:var(--mono);font-size:10px;color:var(--mute);letter-spacing:0;font-weight:600}
+  table{width:100%;border-collapse:collapse}
+  thead th{position:sticky;top:0;background:var(--panel2);color:var(--mute);font-size:10px;font-weight:800;
+    letter-spacing:.09em;text-align:right;padding:8px 10px;border-bottom:1px solid var(--edge);white-space:nowrap}
+  thead th.l{text-align:left}
+  tbody td{padding:8px 10px;border-bottom:1px solid #1b1424;font-size:13px;text-align:right;font-family:var(--mono)}
+  tbody tr:last-child td{border-bottom:0}
+  tbody tr:hover td{background:#170f20}
+  td.player{text-align:left;font-family:var(--sans)}
+  td.player .n{font-weight:700;font-size:13.5px}
+  td.player .t{color:var(--mute);font-size:11px;margin-left:6px}
+  .line{color:var(--goldHi);font-weight:800}
+  .ou{font-size:12px}
+  .pos{color:var(--green)}
+  .neg{color:var(--mute)}
+  .book{font-size:9px;color:var(--mute);display:block;letter-spacing:.05em}
+  .empty{padding:50px 20px;text-align:center;color:var(--mute)}
+  .foot{padding:20px 0 50px;color:var(--mute);font-size:11px;line-height:1.6}
+  .foot b{color:var(--gold)}
+  .spin{width:20px;height:20px;border:2px solid var(--edge);border-top-color:var(--gold);border-radius:50%;
+    display:inline-block;animation:s .8s linear infinite;vertical-align:-4px;margin-right:8px}
+  @keyframes s{to{transform:rotate(360deg)}}
+  @media(max-width:720px){
+    h1{font-size:30px}
+    th.hide-sm,td.hide-sm{display:none}
+    tbody td,thead th{padding:7px 6px;font-size:12px}
+  }
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="wrap">
+    <div class="nav">
+      <span class="brand">HEY BIG PROPPA</span>
+      <a class="pill" href="/home/index.html">HOME</a>
+      <a class="pill" href="/leaders?cat=targets">LEADERS</a>
+      <a class="pill" href="/h2h?cat=targets">H2H</a>
+      <a class="pill" href="/parlay">PARLAY</a>
+      <a class="pill" href="/moneyball">MONEY BALL</a>
+      <a class="pill on" href="/prop-board.html">PROP BOARD</a>
+      <span style="width:8px"></span>
+      <a class="pill" id="nav-nfl" href="/prop-board.html?league=nfl">NFL</a>
+      <a class="pill" id="nav-nba" href="/prop-board.html?league=nba">NBA</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="kicker" id="kicker">NFL PLAYER PROPS · EVERY GAME · EVERY MARKET</div>
+    <h1>THE PROP BOARD</h1>
+    <p class="sub" id="sub">Lines and prices from FanDuel, DraftKings and Caesars — one clean board.</p>
+    <span class="stamp"><span class="dot"></span><span id="stamp">loading…</span></span>
+  </header>
+
+  <div class="controls">
+    <input id="q" type="search" placeholder="Search player or team…" autocomplete="off" />
+    <select id="team"><option value="">All teams</option></select>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+  <div class="board" id="board"><div class="empty"><span class="spin"></span>Loading the board…</div></div>
+
+  <div class="foot">
+    <b>How to read it:</b> LINE is the number, the two prices under each book are the OVER / UNDER odds.
+    Hit a market tab to switch props. This board is refreshed from the source feed; prices move all day, so confirm at your book before betting.
+  </div>
+</div>
+
+<script>
+const LABELS = {
+  firsttd:"First TD", anytd:"Anytime TD", lasttd:"Last TD", twotd:"2+ TDs", threetd:"3+ TDs",
+  comp:"Completions", passatt:"Pass Attempts", passyds:"Pass Yards", passtd:"Pass TDs", intsthrown:"INTs Thrown",
+  recs:"Receptions", rushrec:"Rush + Rec Yards", recyds:"Rec Yards", rushyds:"Rush Yards",
+  longrush:"Longest Rush", tackle:"Total Tackles", solo:"Solo Tackles", assist:"Assist Tackles",
+  sack:"Sacks", kickpts:"Kicking Points", fgm:"FG Made", xpm:"XP Made",
+  // NBA
+  pts:"Points", reb:"Rebounds", ast:"Assists", threes:"Threes", blk:"Blocks", stl:"Steals",
+  turnovers:"Turnovers", ptsrebast:"Pts + Reb + Ast", ptsreb:"Pts + Reb", ptsast:"Pts + Ast",
+  rebast:"Reb + Ast", stlblk:"Stl + Blk"
+};
+const LEAGUE = (new URLSearchParams(location.search).get("league") || "nfl").toLowerCase();
+const IS_NBA = LEAGUE === "nba";
+const LEAGUE_ORDER = {
+  nfl: ["passyds","passtd","comp","passatt","intsthrown","rushyds","recs","recyds","rushrec","longrush","anytd","firsttd","lasttd","twotd","threetd","tackle","solo","assist","sack","kickpts","fgm","xpm"],
+  nba: ["pts","reb","ast","threes","ptsrebast","ptsreb","ptsast","rebast","stl","blk","stlblk","turnovers"]
+};
+const ORDER = LEAGUE_ORDER[LEAGUE] || Object.keys(LABELS);
+const TD = new Set(["firsttd","anytd","lasttd","twotd","threetd"]);
+const BOOKS = [["fanduel","FD"],["draftkings","DK"],["caesars","CZR"]];
+let DATA = null, market = IS_NBA ? "pts" : "passyds";
+
+if (IS_NBA) {
+  document.getElementById("kicker").textContent = "NBA PLAYER PROPS · EVERY GAME · EVERY MARKET";
+  document.getElementById("sub").textContent = "Lines and prices from FanDuel, DraftKings and Caesars — one clean board.";
+  document.getElementById("nav-nba").classList.add("on");
+} else {
+  document.getElementById("nav-nfl").classList.add("on");
+}
+
+const $ = id => document.getElementById(id);
+
+function fmtPrice(v){
+  if(v===null||v===undefined||v==="") return "—";
+  const n = Number(v);
+  if(!isFinite(n)) return "—";
+  return n>0 ? "+"+n : String(n);
+}
+function fmtLine(v){
+  if(v===null||v===undefined||v==="") return "—";
+  return String(v);
+}
+function gameLabel(g){
+  // derive away/home from player team + opponent ("@" prefix means player's team is away)
+  let away=null, home=null;
+  for(const p of g.players){
+    for(const m of p.markets){
+      for(const b of m.books){
+        // opponent info isn't in this payload; infer from team codes later
+      }
+    }
+  }
+  return `GAME ${g.gameId}`;
+}
+
+function playerRows(){
+  // return array of {gameId, playerName, team, opponent, line, books:{slug:{over,under,moneyline}}}
+  const out=[];
+  const games = DATA.games || [];
+  for(const g of games){
+    for(const p of g.players){
+      const mk = p.markets.find(m=>m.market===market);
+      if(!mk) continue;
+      // group books by line (the feed splits a market by line)
+      const byLine = new Map();
+      for(const b of mk.books){
+        const key = (b.line===null||b.line===undefined) ? "__" : String(b.line);
+        if(!byLine.has(key)) byLine.set(key, {line:b.line, books:{}, opponent:p.opponent});
+        byLine.get(key).books[b.book] = b;
+      }
+      for(const [k,grp] of byLine){
+        out.push({
+          gameId:g.gameId, playerId:p.playerId, name:p.name, team:p.team,
+          opponent:p.opponent||"", line:grp.line, books:grp.books
+        });
+      }
+    }
+  }
+  return out;
+}
+
+function passesFilters(row){
+  const q = ($("q").value||"").trim().toLowerCase();
+  const team = $("team").value;
+  if(team && row.team!==team) return false;
+  if(q){
+    const hay = (row.name+" "+row.team+" "+(row.opponent||"")).toLowerCase();
+    if(!hay.includes(q)) return false;
+  }
+  return true;
+}
+
+function render(){
+  const host = $("board");
+  if(!DATA){ return; }
+  let rows = playerRows().filter(passesFilters);
+  if(!rows.length){
+    host.innerHTML = `<div class="empty">No props for this market/filter.</div>`;
+    return;
+  }
+  const isTD = TD.has(market);
+  // group by game
+  const games = new Map();
+  for(const r of rows){
+    if(!games.has(r.gameId)) games.set(r.gameId, []);
+    games.get(r.gameId).push(r);
+  }
+  let html = "";
+  for(const [gid, grs] of games){
+    grs.sort((a,b)=> (a.name||"").localeCompare(b.name||""));
+    // matchup: player whose opponent starts with "@" is the away team
+    let away=null, home=null, opp="";
+    for(const r of grs){
+      if(!r.opponent) continue;
+      if(r.opponent.startsWith("@")){ away=r.team; home=r.opponent.slice(1); }
+      else { home=r.team; away=r.opponent; }
+      opp=r.opponent; break;
+    }
+    const head = away && home ? `${away} @ ${home}` : (grs[0].team ? `${grs[0].team} ${opp}`.trim() : `Game ${gid}`);
+    html += `<div class="game"><div class="ghead"><span>${esc(head)}</span><span class="meta">${grs.length} lines</span></div>`;
+    html += `<table><thead><tr>
+      <th class="l">PLAYER</th>
+      ${isTD ? "" : `<th class="hide-sm">LINE</th>`}
+      ${BOOKS.map(([s,l])=>`<th colspan="${isTD?1:2}">${l}</th>`).join("")}
+    </tr>`;
+    if(!isTD){
+      html += `<tr><th class="l"></th><th class="hide-sm"></th>
+        ${BOOKS.map(()=>`<th>O</th><th>U</th>`).join("")}</tr>`;
+    }
+    html += `</thead><tbody>`;
+    for(const r of grs){
+      html += `<tr>
+        <td class="player"><span class="n">${esc(r.name)}</span><span class="t">${esc(r.team||"")}${r.opponent?(" · "+esc(r.opponent)):""}</span></td>`;
+      if(!isTD) html += `<td class="hide-sm"><span class="line">${fmtLine(r.line)}</span></td>`;
+      for(const [slug] of BOOKS){
+        const b = r.books[slug];
+        if(!b){
+          html += isTD ? `<td class="ou">—</td>` : `<td class="ou">—</td><td class="ou">—</td>`;
+        } else if(isTD){
+          html += `<td class="ou pos">${fmtPrice(b.moneyline)}</td>`;
+        } else {
+          html += `<td class="ou pos">${fmtPrice(b.over)}</td><td class="ou neg">${fmtPrice(b.under)}</td>`;
+        }
+      }
+      html += `</tr>`;
+    }
+    html += `</tbody></table></div>`;
+  }
+  host.innerHTML = html;
+}
+
+function esc(s){ return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function buildTabs(){
+  const present = new Set((DATA.markets||[]).map(m=>m));
+  const tabs = ORDER.filter(m=>present.size?present.has(m):true);
+  $("tabs").innerHTML = tabs.map(m=>`<button class="tab${m===market?" on":""}" data-m="${m}">${LABELS[m]||m}</button>`).join("");
+  $("tabs").querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+    market = b.dataset.m;
+    $("tabs").querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===b));
+    render();
+  });
+  const on = $("tabs").querySelector(".tab.on");
+  if(on && on.scrollIntoView) on.scrollIntoView({inline:"center", block:"nearest"});
+}
+
+function buildTeams(){
+  const teams = new Set();
+  for(const g of (DATA.games||[])) for(const p of g.players) if(p.team) teams.add(p.team);
+  const sel = $("team");
+  sel.innerHTML = `<option value="">All teams</option>` + [...teams].sort().map(t=>`<option value="${t}">${t}</option>`).join("");
+}
+
+async function load(){
+  try{
+    const r = await fetch("/api/props?league=" + encodeURIComponent(LEAGUE));
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    DATA = await r.json();
+    const n = DATA.count||0;
+    $("stamp").textContent = `${LEAGUE.toUpperCase()} · ${(DATA.games||[]).length} games · ${(DATA.rows||[]).length} lines · live`;
+    document.title = `The Prop Board · ${LEAGUE.toUpperCase()} Player Props`;
+    buildTabs(); buildTeams(); render();
+  }catch(e){
+    $("stamp").textContent = "could not load feed";
+    $("board").innerHTML = `<div class="empty">Could not load the prop feed — ${esc(e.message)}.<br><br>Check that the data service is running.</div>`;
+  }
+}
+
+$("q").addEventListener("input", render);
+$("team").addEventListener("change", render);
+load();
+</script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+"""
+Matchup heat map: two teams side by side across 11 team-level metrics, each
+ranked against all 32 NFL teams from the lake (team_game_stats, points_by_half,
+schedule). Rank 1 = strongest -> green on the front end.
+
+Also exports game_lines() — moneyline, total, and JEV-endorsed alternate unders
+for the underdog, meaning lines where the total is reduced to increase the odds
+on the under, but only when JEV agrees the under still clears.
+"""
+from __future__ import annotations
+
+from collections import defaultdict
+
+import data
+
+SEASON = "2026"
+
+# key, label, unit, higher_is_better
+METRICS = [
+    ("turnovers_pg", "Turnovers per game", "", False),
+    ("pass_ypg", "Passing yards per game", "", True),
+    ("rush_ypg", "Rushing yards per game", "", True),
+    ("def_rank", "Defense ranked in NFL (pts allowed)", "rank", False),
+    ("off_rank", "Offense ranked in NFL (pts scored)", "rank", False),
+    ("margin_pg", "Win margin per game", "", True),
+    ("third_pct", "3rd down conversion", "%", True),
+    ("opp_third_pct", "Opponent 3rd down conversion", "%", False),
+    ("second_half_rank", "2nd half scoring ranked in NFL", "rank", False),
+    ("rz_pct", "Red zone scoring (TD %)", "%", True),
+    ("opp_rz_pct", "Opponent red zone scoring (TD %)", "%", False),
+]
+
+
+def _f(v) -> float:
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def _rank(values: dict[str, float], high_good: bool) -> dict[str, int]:
+    order = sorted(values, key=lambda t: -values[t] if high_good else values[t])
+    return {t: i + 1 for i, t in enumerate(order)}
+
+
+def _team_table() -> dict[str, dict]:
+    games = [r for r in data.load("team_game_stats") if r.get("season") == SEASON]
+    by_game: dict[str, dict[str, dict]] = defaultdict(dict)
+    for r in games:
+        by_game[r["game_id"]][r["team"]] = r
+
+    acc: dict[str, dict[str, float]] = defaultdict(lambda: defaultdict(float))
+    for r in games:
+        t = r["team"]
+        opp = by_game[r["game_id"]].get(r["opponent"])
+        a = acc[t]
+        a["g"] += 1
+        a["to"] += _f(r["ints_thrown"]) + _f(r["fumbles_lost"])
+        a["pass"] += _f(r["pass_yds"])
+        a["rush"] += _f(r["rush_yds"])
+        a["pf"] += _f(r["points_for"])
+        a["pa"] += _f(r["points_against"])
+        a["margin"] += _f(r["margin"])
+        a["3a"] += _f(r["third_down_att"])
+        a["3c"] += _f(r["third_down_conv"])
+        a["rzt"] += _f(r["rz_trips"])
+        a["rztd"] += _f(r["rz_tds"])
+        if opp:
+            a["o3a"] += _f(opp["third_down_att"])
+            a["o3c"] += _f(opp["third_down_conv"])
+            a["orzt"] += _f(opp["rz_trips"])
+            a["orztd"] += _f(opp["rz_tds"])
+
+    sh: dict[str, float] = defaultdict(float)
+    for r in data.load("points_by_half"):
+        if r.get("season") == SEASON and r.get("half") == "2":
+            sh[r["opponent"]] += _f(r["points_allowed"])
+
+    out: dict[str, dict] = {}
+    for t, a in acc.items():
+        g = a["g"] or 1
+        out[t] = {
+            "turnovers_pg": a["to"] / g,
+            "pass_ypg": a["pass"] / g,
+            "rush_ypg": a["rush"] / g,
+            "pf": a["pf"] / g,
+            "pa": a["pa"] / g,
+            "margin_pg": a["margin"] / g,
+            "third_pct": 100 * a["3c"] / a["3a"] if a["3a"] else 0.0,
+            "opp_third_pct": 100 * a["o3c"] / a["o3a"] if a["o3a"] else 0.0,
+            "rz_pct": 100 * a["rztd"] / a["rzt"] if a["rzt"] else 0.0,
+            "opp_rz_pct": 100 * a["orztd"] / a["orzt"] if a["orzt"] else 0.0,
+            "sh_pg": sh.get(t, 0.0) / g,
+        }
+    return out
+
+
+def _qb(team: str, name: str) -> dict:
+    pid = None
+    norm = data.normalize_name(name) if name else ""
+    for p, r in data.player_dimension().items():
+        if r.get("team") == team and data.normalize_name(r.get("name", "")) == norm:
+            pid = p
+            break
+    return {"name": name or "TBD", "photoUrl": data.photo_url(pid) if pid else None}
+
+
+def _dec(american: float) -> float:
+    return 1 + (american / 100 if american > 0 else 100 / -american)
+
+
+def game_lines(away: str, home: str) -> dict:
+    """
+    Moneyline, posted total, and JEV-endorsed alternate under lines for this game.
+
+    Alternate unders: drop the posted total by 2.5, 5, and 7.5 points. For each,
+    ask JEV whether the under still clears given the teams' defensive profiles.
+    Only surfaces lines where JEV probability >= 0.50. Fewer points = better odds
+    on the under = higher payout, but only when JEV agrees.
+    """
+    import jimmy_nfl_games
+    import jev as _jev
+    import math
+
+    JEV_MIN_P = 0.50
+    ALT_DROPS = [2.5, 5.0, 7.5]
+
+    # Find this game's FanDuel prices
+    raw = None
+    for r in jimmy_nfl_games._games():
+        if {r["home"], r["away"]} == {home, away}:
+            raw = r
+            break
+    if not raw:
+        return {"available": False}
+
+    fd = raw["fd"]
+
+    def _f(v):
+        try: return float(v)
+        except: return None
+
+    hml, aml = _f(fd.get("homeTeamML")), _f(fd.get("awayTeamML"))
+    total = _f(fd.get("totalOver"))
+    over_px, under_px = _f(fd.get("totalOverOdds")), _f(fd.get("totalUnderOdds"))
+
+    if hml is None or aml is None:
+        return {"available": False}
+
+    # Identify underdog: higher American odds (more positive) = underdog
+    home_is_dog = hml > aml
+    dog_team = home if home_is_dog else away
+    fav_team = away if home_is_dog else home
+    dog_ml = hml if home_is_dog else aml
+    fav_ml = aml if home_is_dog else hml
+
+    # Moneyline cards
+    def ml_card(team: str, american: float, label: str) -> dict:
+        dec = _dec(american)
+        sign = "+" if american > 0 else ""
+        return {
+            "team": team, "american": int(american), "display": f"{sign}{int(american)}",
+            "decimal": round(dec, 3), "impliedPct": round(100 / dec, 1), "label": label,
+        }
+
+    moneylines = [
+        ml_card(fav_team, fav_ml, "FAVORITE"),
+        ml_card(dog_team, dog_ml, "UNDERDOG"),
+    ]
+
+    # Total — over/under at posted line
+    total_line = None
+    if total and over_px and under_px:
+        total_line = {
+            "line": total,
+            "over": {"american": int(over_px), "display": f"+{int(over_px)}" if over_px > 0 else str(int(over_px)),
+                     "decimal": round(_dec(over_px), 3)},
+            "under": {"american": int(under_px), "display": f"+{int(under_px)}" if under_px > 0 else str(int(under_px)),
+                      "decimal": round(_dec(under_px), 3)},
+        }
+
+    # Alternate under lines: JEV must agree. One game read (full scouting file) prices every rung.
+    alt_unders = []
+    jev_game = None
+    if total and _jev.ready():
+        read = _jev.game_read(away, home, total, _f(fd.get("homeTeamSpread")))
+        if read:
+            jev_game = {"expectedTotal": read["expectedTotal"], "expectedHomeMargin": read["expectedHomeMargin"], "pOver": read["pOver"],
+                        "pHomeCovers": read["pHomeCovers"], "pHomeWins": read["pHomeWins"], "home": home, "away": away,
+                        "grades": read.get("grades")}
+            for drop in ALT_DROPS:
+                alt_line = round(total - drop, 1)
+                jev_p = round(1 - _jev.game_p_over(read, alt_line), 3)
+                if jev_p >= JEV_MIN_P:
+                    # no posted FanDuel alt price: estimate from JEV's own probability with a 4.5% hold
+                    est_p = min(0.95, max(0.05, jev_p * 1.045))
+                    est_am = int(round(-100 * est_p / (1 - est_p))) if est_p >= 0.5 else int(round(100 * (1 - est_p) / est_p))
+                    alt_unders.append({
+                        "line": alt_line, "drop": drop, "jevP": jev_p, "estAmerican": est_am,
+                        "estDisplay": f"+{est_am}" if est_am > 0 else str(est_am), "estDecimal": round(_dec(est_am), 3),
+                        "note": f"JEV {jev_p:.0%} confident UNDER {alt_line} clears · {drop:g} pts below the posted total",
+                    })
+
+    return {
+        "available": True,
+        "moneylines": moneylines,
+        "total": total_line,
+        "altUnders": alt_unders,
+        "jevActive": _jev.available(),
+        "jevGame": jev_game,
+        "underdogTeam": dog_team,
+    }
+
+
+def prediction(away: str, home: str, rows: list[dict], lines: dict) -> dict | None:
+    """BIG PROPPA'S PICK: always names a winner. Projected margin and total come from the Big Proppa Line's team-points
+    model, blended with JEV's read at JEV's earned weight; a dead-even margin is broken by who wins more of the matchup
+    categories, then by the market favourite. Spread and total picks are taken against the posted FanDuel numbers."""
+    import math
+    import bpl
+    import jev_ledger
+    import jimmy_nfl_games
+    m = next((t for t in bpl.nfl_game_totals() if t["home"] == home and t["away"] == away), None)
+    if not m:
+        return None
+    margin, total = m["homePoints"] - m["awayPoints"], m["homePoints"] + m["awayPoints"]
+    jg = (lines or {}).get("jevGame")
+    w = jev_ledger.weight("game") if jg else 0.0
+    if jg:
+        margin = (1 - w) * margin + w * jg["expectedHomeMargin"]
+        total = (1 - w) * total + w * jg["expectedTotal"]
+    aw = sum(1 for r in rows if r["away"] and r["home"] and r["away"]["rank"] < r["home"]["rank"])
+    hw = sum(1 for r in rows if r["away"] and r["home"] and r["home"]["rank"] < r["away"]["rank"])
+    if abs(margin) < 0.5:          # never a pick'em: categories first, then the market favourite
+        fav_home = (lines or {}).get("moneylines", [{}])[0].get("team") == home if lines else True
+        margin = 0.5 if (hw > aw or (hw == aw and fav_home)) else -0.5
+    winner, loser = (home, away) if margin > 0 else (away, home)
+    p_win = 0.5 * (1 + math.erf(abs(margin) / jimmy_nfl_games.SIGMA / math.sqrt(2)))
+    hs, as_ = round((total + margin) / 2), round((total - margin) / 2)
+    if (hs > as_) != (margin > 0) or hs == as_:     # the projected score always agrees with the pick
+        if margin > 0:
+            hs = as_ + 1 if hs <= as_ else hs
+        else:
+            as_ = hs + 1 if as_ <= hs else as_
+    raw = next((r for r in jimmy_nfl_games._games() if {r["home"], r["away"]} == {home, away}), None)
+    fd = raw["fd"] if raw else {}
+    out = {"winner": winner, "loser": loser, "winProb": round(p_win, 3), "margin": round(abs(margin), 1),
+           "score": {away: as_, home: hs}, "scoreText": f"{winner} {max(hs, as_)}, {loser} {min(hs, as_)}",
+           "projectedTotal": round(total, 1), "categories": {away: aw, home: hw}, "jevWeight": round(w, 2), "jevUsed": bool(jg)}
+    ml = {c["team"]: c for c in (lines or {}).get("moneylines", [])}
+    if winner in ml:
+        out["moneyline"] = {"team": winner, "price": ml[winner]["display"], "prob": round(p_win, 3)}
+    try:
+        s_h = float(fd.get("homeTeamSpread"))
+    except (TypeError, ValueError):
+        s_h = None
+    if s_h is not None:
+        home_cover = 0.5 * (1 + math.erf((margin + s_h) / jimmy_nfl_games.SIGMA / math.sqrt(2)))
+        if home_cover >= 0.5:
+            out["spread"] = {"team": home, "line": f"{s_h:+g}", "prob": round(home_cover, 3)}
+        else:
+            out["spread"] = {"team": away, "line": f"{-s_h:+g}", "prob": round(1 - home_cover, 3)}
+    try:
+        t_line = float(fd.get("totalOver"))
+    except (TypeError, ValueError):
+        t_line = None
+    if t_line is not None:
+        p_over = 0.5 * (1 + math.erf((total - t_line) / jimmy_nfl_games.SIGMA / math.sqrt(2)))
+        out["total"] = {"side": "OVER" if p_over >= 0.5 else "UNDER", "line": t_line, "prob": round(max(p_over, 1 - p_over), 3)}
+    return out
+
+
+def build(away: str, home: str, away_qb: str = "", home_qb: str = "") -> dict:
+    tbl = _team_table()
+    teams = list(tbl)
+    ranks = {
+        "turnovers_pg": _rank({t: tbl[t]["turnovers_pg"] for t in teams}, False),
+        "pass_ypg": _rank({t: tbl[t]["pass_ypg"] for t in teams}, True),
+        "rush_ypg": _rank({t: tbl[t]["rush_ypg"] for t in teams}, True),
+        "def_rank": _rank({t: tbl[t]["pa"] for t in teams}, False),
+        "off_rank": _rank({t: tbl[t]["pf"] for t in teams}, True),
+        "margin_pg": _rank({t: tbl[t]["margin_pg"] for t in teams}, True),
+        "third_pct": _rank({t: tbl[t]["third_pct"] for t in teams}, True),
+        "opp_third_pct": _rank({t: tbl[t]["opp_third_pct"] for t in teams}, False),
+        "second_half_rank": _rank({t: tbl[t]["sh_pg"] for t in teams}, True),
+        "rz_pct": _rank({t: tbl[t]["rz_pct"] for t in teams}, True),
+        "opp_rz_pct": _rank({t: tbl[t]["opp_rz_pct"] for t in teams}, False),
+    }
+    n = len(teams) or 1
+    value_from_rank = {"def_rank", "off_rank", "second_half_rank"}
+
+    def cell(team: str, key: str) -> dict | None:
+        if team not in tbl:
+            return None
+        rk = ranks[key][team]
+        val = rk if key in value_from_rank else round(tbl[team][key], 1)
+        return {"value": val, "rank": rk, "strength": round(1 - (rk - 1) / max(n - 1, 1), 3)}
+
+    rows = []
+    for key, label, unit, _hi in METRICS:
+        rows.append({"key": key, "label": label, "unit": unit,
+                     "away": cell(away, key), "home": cell(home, key)})
+
+    lines = game_lines(away, home)
+
+    return {
+        "active": True,
+        "season": SEASON,
+        "teamsRanked": n,
+        "away": {"team": away, "qb": _qb(away, away_qb)},
+        "home": {"team": home, "qb": _qb(home, home_qb)},
+        "rows": rows,
+        "gameLines": lines,
+        "prediction": prediction(away, home, rows, lines),
+    }

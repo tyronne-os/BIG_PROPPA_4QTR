@@ -1,0 +1,20 @@
+{
+  "name": "BIG PROPPA 4QTR",
+  "created": "2026-11-15",
+  "description": "Quarter-end major project with Amanda Boss memory authority transfer",
+  "status": "initializing",
+  "memory_authority": {
+    "transferred": true,
+    "source_project": "Amanda_Project_Boss",
+    "authority_type": "power_of_authority",
+    "movement": "moves_with_subject_to_new_project"
+  },
+  "layers": {
+    "layer_1": "foundation",
+    "layer_2": "context",
+    "layer_3": "execution",
+    "layer_4": "delivery",
+    "layer_5": "quantum_preservation"
+  },
+  "status": "ready_for_product_knowledge"
+}
