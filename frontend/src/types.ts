@@ -688,3 +688,36 @@ export interface PlayerFantasy {
   liveProjection?: number | null;
   live?: { points: { PPR: number | null; HALF: number | null; STD: number | null }; status: "LIVE" | "FINAL"; period: string; clock: string; opponent: string } | null;
 }
+
+// ── Matchup of the Day (ESPN + SFS) ────────────────────────────────────────
+
+export interface MOTDPlayer {
+  playerId: string;
+  name: string;
+  team: string;
+  position: string;
+  photoUrl: string | null;
+  stats: Record<string, unknown>;
+  starter: boolean;
+}
+
+export interface MOTDGame {
+  gameId: string;
+  away: string;
+  home: string;
+  awayScore: number;
+  homeScore: number;
+  status: string;
+  period: number | null;
+  clock: string | null;
+  start: string | null;
+  spread: string | null;
+  total: number | null;
+  starters: MOTDPlayer[];   // foundational props (cleared SFS starter threshold)
+  bench: MOTDPlayer[];      // SFS-filtered bench & breakout candidates
+}
+
+export interface MatchupOfTheDayResponse {
+  date: string;
+  games: MOTDGame[];
+}

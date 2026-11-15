@@ -1394,6 +1394,103 @@ def api_espn_game(id: str, lg: str = "nfl"):
     return espn.game_detail(id, lg) or {"error": "ESPN has no data for that game right now"}
 
 
+@app.get("/api/espn/matchup-of-the-day")
+def api_espn_matchup_of_the_day(date: str | None = None):
+    """Matchup of the day: ESPN scoreboard + player box scores + prop lines,
+    split into starters (foundational props) and SFS-filtered bench/breakout.
+
+    SFS (Situational/Floor/Situation) filter: starters are players who clear a
+    season opportunity-per-game threshold at their position (QB pass attempts,
+    RB carries, WR/TE targets). Everyone else is bench; of those, breakout
+    candidates show high efficiency (yards per opportunity) or a recent game
+    above their season average.
+    """
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    import espn, data
+
+    target = date or datetime.now(ZoneInfo("America/Chicago")).strftime("%Y-%m-%d")
+    games = [g for g in espn.get_scoreboard() if (g.get("start") or "").startswith(target)]
+
+    usage = {r["player_id"]: r for r in data.load("player_usage") if r.get("player_id")}
+    dim = data.player_dimension()
+
+    def starter(pid: str, position: str) -> bool:
+        u = usage.get(pid)
+        if not u:
+            return False
+        gm = max(float(u.get("games") or 0), 1)
+        opps = float(u.get("spine_opps") or 0) / gm
+        pos = (u.get("position") or position or "").upper()
+        if pos == "QB":
+            return opps >= 12
+        if pos in ("RB", "FB"):
+            return opps >= 6
+        if pos in ("WR", "TE"):
+            return opps >= 3
+        return opps >= 2
+
+    def breakout_score(stats: dict, pid: str) -> float:
+        """Efficiency + recent-vs-season signal for bench players."""
+        recs = float(stats.get("recs", 0) or 0)
+        recyds = float(stats.get("recyds", 0) or 0)
+        rushyds = float(stats.get("rushyds", 0) or 0)
+        carries = float(stats.get("carries", 0) or 0)
+        eff = (recyds / max(recs, 1)) if recs else (rushyds / max(carries, 1) if carries else 0)
+        u = usage.get(pid) or {}
+        season_avg = float(u.get("spine_opps", 0)) / max(float(u.get("games", 1) or 1), 1)
+        recent = float(stats.get("recs", 0) or 0) + float(stats.get("carries", 0) or 0)
+        return eff * 0.6 + min(recent / max(season_avg, 0.5), 3) * 0.4
+
+    out = []
+    for g in sorted(games, key=lambda x: x.get("start") or ""):
+        game_id = g["game_id"]
+        summary = espn.get_game_summary(game_id) or {}
+        players = summary.get("players", {}) or {}
+
+        starters, bench = [], []
+        for (name, team_abbr), stats in players.items():
+            pid = name
+            pos = ""
+            photo = None
+            for p_id, d in dim.items():
+                if data.normalize_name(d.get("name", "")) == data.normalize_name(name) and d.get("team", "").upper() == team_abbr.upper():
+                    pid = p_id
+                    pos = d.get("position", "") or ""
+                    photo = data.photo_url(p_id) if not p_id.startswith("00-") else None
+                    break
+            entry = {
+                "name": name,
+                "team": team_abbr,
+                "playerId": pid,
+                "position": pos,
+                "photoUrl": photo,
+                "stats": stats,
+            }
+            (starters if starter(pid, pos) else bench).append(entry)
+
+        starters.sort(key=lambda e: -(float(e["stats"].get("passyds", 0) or 0) + float(e["stats"].get("recyds", 0) or 0) + float(e["stats"].get("rushyds", 0) or 0)))
+        bench.sort(key=lambda e: -breakout_score(e["stats"], e["playerId"]))
+
+        out.append({
+            "gameId": game_id,
+            "away": g["away"],
+            "home": g["home"],
+            "awayScore": int(g["away_score"]),
+            "homeScore": int(g["home_score"]),
+            "status": g["status"],
+            "period": g.get("period"),
+            "clock": g.get("clock"),
+            "start": g.get("start"),
+            "spread": g.get("odds_spread"),
+            "total": g.get("odds_ou"),
+            "starters": starters[:10],
+            "bench": bench[:6],
+        })
+
+    return {"date": target, "games": out}
+
+
 @app.get("/api/cfb/espn")
 def api_cfb_espn():
     """College football (Top 25 + SEC only): slate with odds/ranks, AP + Coaches polls, portal / SEC / matchup news."""

@@ -62,6 +62,7 @@ export const api = {
   index: () => get<ChartIndexRow[]>("/api/index"),
   espnTicker: () => get<{ games: any[] }>("/api/espn/ticker"),
   espnGame: (id: string, lg: string) => get<any>(`/api/espn/game?id=${encodeURIComponent(id)}&lg=${lg}`),
+  espnMatchupOfTheDay: (date?: string) => get<any>(`/api/espn/matchup-of-the-day${date ? `?date=${encodeURIComponent(date)}` : ""}`),
   cfbEspn: () => get<any>("/api/cfb/espn"),
   booStaff: () => get<any>("/api/boo/staff"),
   searchPlayers: (q: string) => get<PlayerSearchResult[]>(`/api/players/search?q=${encodeURIComponent(q)}`),
