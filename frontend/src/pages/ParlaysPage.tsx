@@ -5,6 +5,7 @@ import LiveTicker from "../components/LiveTicker";
 import TicketCard, { fromThemed } from "../components/TicketCard";
 import MyTickets from "../components/MyTickets";
 import EarlyHero from "../components/EarlyHero";
+import ChatComposer from "../components/ChatComposer";
 import { api, h2hToken } from "../api";
 import { type EarlyResponse, ParlaySlip } from "../types";
 import { PlayerLink } from "../playerLink";
@@ -194,20 +195,29 @@ export default function ParlaysPage() {
         </div>
       )}
 
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 20px", display: "flex", flexDirection: "column", gap: 24 }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "24px 20px", display: "flex", gap: 24, alignItems: "flex-start" }}>
 
-        {/* Passcode gate — only blocks the bets section */}
-        {!unlocked && <PasscodeGate onUnlock={() => setUnlocked(true)} />}
+        {/* Left column — parlay content */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 24 }}>
 
-        {unlocked && slips && (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(380px,1fr))", gap: 18, alignItems: "start" }}>
-            {Object.values(slips).map((s) => (
-              s.legs.length > 0 ? <TicketCard key={s.id} slip={fromThemed(s)} /> : <Ticket key={s.id} slip={s} />
-            ))}
-          </div>
-        )}
+          {/* Passcode gate — only blocks the bets section */}
+          {!unlocked && <PasscodeGate onUnlock={() => setUnlocked(true)} />}
 
-        {unlocked && <MyTickets day="thursday" />}
+          {unlocked && slips && (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(380px,1fr))", gap: 18, alignItems: "start" }}>
+              {Object.values(slips).map((s) => (
+                s.legs.length > 0 ? <TicketCard key={s.id} slip={fromThemed(s)} /> : <Ticket key={s.id} slip={s} />
+              ))}
+            </div>
+          )}
+
+          {unlocked && <MyTickets day="thursday" />}
+        </div>
+
+        {/* Right column — live chat with Kizzy */}
+        <div style={{ width: 400, flex: "0 0 400px" }}>
+          <ChatComposer />
+        </div>
       </div>
     </div>
   );
