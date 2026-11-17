@@ -1,18 +1,18 @@
 {
  "00-0023459": {
-  "composite": 0.074,
+  "at": 1794880512.8294895,
+  "composite": -0.107,
   "confidence": "low",
   "drivers": [
-   "matchup",
    "last five",
    "projection",
    "usage",
    "red zone"
   ],
   "name": "Aaron Rodgers",
-  "playerId": "00-0023459",
-  "prediction": "No payday in this line \u2014 watch it, don't bet it. Aaron Rodgers (PIT), pass yds, at CIN, a soft run-fit defense. Lake 232.5 vs book 216.5 \u2014 7.4% daylight, over.",
-  "redFlags": []
+  "prediction": "No payday in this line \u2014 watch it, don't bet it. Aaron Rodgers (PIT), pass yds, at PHI, an average defense. Putrid \u2014 0-for-5. He's cost you dinner twice. Lake 230 vs book 216.5 \u2014 6.2% daylight, over.",
+  "redFlags": [],
+  "team": "PIT"
  },
  "00-0025565": {
   "composite": 0.0,
@@ -734,15 +734,16 @@
   "redFlags": []
  },
  "00-0032889": {
+  "at": 1794880508.7405047,
   "composite": 0.0,
   "confidence": "low",
   "drivers": [
    "wrong market"
   ],
   "name": "A'Shawn Robinson",
-  "playerId": "00-0032889",
   "prediction": "No play. A'Shawn Robinson is a DL \u2014 he doesn't throw passes. That's a book filler line, not a market. Pass.",
-  "redFlags": []
+  "redFlags": [],
+  "team": "TB"
  },
  "00-0032950": {
   "composite": -0.222,
@@ -1011,8 +1012,9 @@
   "redFlags": []
  },
  "00-0033293": {
-  "composite": -0.063,
-  "confidence": "low",
+  "at": 1794880510.8014889,
+  "composite": -0.357,
+  "confidence": "medium",
   "drivers": [
    "matchup",
    "projection",
@@ -1020,9 +1022,9 @@
    "red zone"
   ],
   "name": "Aaron Jones",
-  "playerId": "00-0033293",
-  "prediction": "Lake's read \u2014 take the under. The book's 67.5 is fat. Aaron Jones (MIN), rush yds, at GB, a soft run-fit defense. Lake 46 vs book 67.5 \u2014 31.9% daylight, under.",
-  "redFlags": []
+  "prediction": "Lake's read \u2014 take the under. The book's 67.5 is fat. Aaron Jones (MIN), rush yds, at SF, a defense that brings real resistance. Lake 44 vs book 67.5 \u2014 34.8% daylight, under.",
+  "redFlags": [],
+  "team": "MIN"
  },
  "00-0033294": {
   "composite": 0.0,

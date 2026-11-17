@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import os
 import json
+import threading
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
@@ -41,8 +42,13 @@ import tank01
 import sportsbook
 import grader as grader_mod
 import myboo as myboo_mod
+import matchup_lake as matchup_lake_mod
+import books as books_mod
 
 app = FastAPI(title="HEY BIG PROPPA! API")
+
+matchup_lake_mod.attach_to_app(app)
+books_mod.attach_books(app)
 
 
 def _warm_caches() -> None:
@@ -2110,6 +2116,76 @@ def _start_take_refresher() -> None:
     _t = _threading.Thread(target=_take_refresher, daemon=True)
     _t.start()
     print("Take refresher thread started")
+
+
+# ── Account signup / auth (no charge — SaaS shape, account only) ─────────────
+_ACCOUNTS_FILE = Path(__file__).resolve().parent.parent / "lake" / "gold" / "nfl" / "accounts.json"
+_ACCOUNTS_LOCK = threading.Lock()
+
+
+def _load_accounts() -> dict:
+    try:
+        with _ACCOUNTS_FILE.open() as f:
+            return json.load(f)
+    except Exception:
+        return {"users": {}, "next_id": 1}
+
+
+def _save_accounts(acc: dict) -> None:
+    with _ACCOUNTS_LOCK:
+        with _ACCOUNTS_FILE.open("w") as f:
+            json.dump(acc, f, indent=2)
+
+
+@app.post("/api/account/signup")
+def api_account_signup(payload: dict):
+    """Create a free account. No payment required — SaaS shape, account only."""
+    email = (payload.get("email") or "").strip().lower()
+    username = (payload.get("username") or "").strip()
+    password = payload.get("password") or ""
+    if not email or "@" not in email:
+        raise HTTPException(400, "valid email required")
+    if not username:
+        raise HTTPException(400, "username required")
+    if len(password) < 6:
+        raise HTTPException(400, "password must be 6+ chars")
+    acc = _load_accounts()
+    if email in acc["users"]:
+        raise HTTPException(409, "email already registered")
+    if any(u.get("username") == username for u in acc["users"].values()):
+        raise HTTPException(409, "username taken")
+    uid = str(acc["next_id"])
+    acc["next_id"] += 1
+    acc["users"][email] = {
+        "id": uid, "email": email, "username": username,
+        "password_hash": str(hash(password)),  # placeholder — real hash in prod
+        "created_at": _dt.datetime.now(_dt.timezone.utc).isoformat(),
+        "role": "member",
+    }
+    _save_accounts(acc)
+    return {"ok": True, "user": {"id": uid, "email": email, "username": username, "role": "member"}}
+
+
+@app.post("/api/account/login")
+def api_account_login(payload: dict):
+    email = (payload.get("email") or "").strip().lower()
+    password = payload.get("password") or ""
+    acc = _load_accounts()
+    u = acc["users"].get(email)
+    if not u or u.get("password_hash") != str(hash(password)):
+        raise HTTPException(401, "invalid credentials")
+    return {"ok": True, "user": {"id": u["id"], "email": u["email"], "username": u["username"], "role": u["role"]}}
+
+
+@app.get("/api/account/me")
+def api_account_me(email: str | None = None):
+    if not email:
+        return {"authenticated": False, "user": None}
+    acc = _load_accounts()
+    u = acc["users"].get(email.strip().lower())
+    if not u:
+        return {"authenticated": False, "user": None}
+    return {"authenticated": True, "user": {"id": u["id"], "email": u["email"], "username": u["username"], "role": u["role"]}}
 
 
 # Catch-all: landing assets → dist assets → SPA fallback for BrowserRouter routes

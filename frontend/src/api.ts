@@ -44,6 +44,14 @@ export const api = {
   booStatsReport: () => get<any>("/api/boo/stats-report"),
   booReports: () => get<any>(`/api/boo/reports`),
   booReport: (gameId?: string) => get<any>(gameId ? `/api/boo/reports/${encodeURIComponent(gameId)}` : `/api/boo/postgame`),
+
+  // ── Account signup / auth (SaaS shape, no charge) ────────────────────────
+  accountSignup: (payload: { email: string; username: string; password: string }) =>
+    post<any>("/api/account/signup", payload),
+  accountLogin: (payload: { email: string; password: string }) =>
+    post<any>("/api/account/login", payload),
+  accountMe: (email?: string) =>
+    get<any>(`/api/account/me${email ? `?email=${encodeURIComponent(email)}` : ""}`),
   booPostgame: (gameId?: string) => get<any>(`/api/boo/postgame${gameId ? `?game_id=${encodeURIComponent(gameId)}` : ""}`),
   h2hSlate: () => get<any>("/api/h2h/slate"),
   h2hGame: (id: string) => get<any>(`/api/h2h/game?game_id=${encodeURIComponent(id)}`),

@@ -1,53 +1,52 @@
 # NFL power ratings and week matchups (TeamRankings)
-Pulled Sun Oct 11 2026 9:48 PM CT
+Pulled Mon Nov 16 2026 7:54 PM CT
 
 ## Power ratings
 rank | team | rating | proj W-L | playoffs % | win SB %
-1 | San Francisco (4-0) | 5.9 | 12.2-4.8 | 89.2 | 12.3
-2 | Jacksonville (3-1) | 5.8 | 11.6-5.4 | 88.8 | 12.0
-3 | LA Rams (2-2) | 5.6 | 10.3-6.7 | 70.2 | 7.3
-4 | Seattle (3-1) | 5.3 | 10.7-6.3 | 71.8 | 8.2
-5 | Kansas City (4-0) | 5.3 | 11.9-5.1 | 90.9 | 10.2
-6 | Chicago (3-1) | 4.7 | 11.0-6.0 | 76.3 | 7.0
-7 | Buffalo (3-1) | 4.5 | 10.9-6.1 | 81.1 | 7.6
-8 | Baltimore (3-1) | 3.4 | 10.8-6.2 | 76.2 | 5.6
-9 | Cincinnati (2-2) | 2.5 | 10.0-7.0 | 64.6 | 3.7
-10 | New England (2-2) | 2.3 | 9.7-7.3 | 65.9 | 3.6
-11 | Minnesota (4-0) | 2.3 | 11.4-5.6 | 80.9 | 5.3
-12 | Denver (2-2) | 2.1 | 9.4-7.6 | 57.0 | 2.8
-13 | Detroit (2-2) | 0.6 | 9.1-7.9 | 43.9 | 1.8
-14 | Dallas (2-3) | 0.4 | 8.0-9.0 | 32.8 | 1.4
-15 | Philadelphia (2-2) | 0.1 | 8.7-8.3 | 43.4 | 1.7
-16 | Houston (0-4) | 0.0 | 6.7-10.3 | 13.6 | 0.5
-17 | Las Vegas (3-1) | -0.2 | 9.1-7.9 | 48.1 | 1.4
-18 | Indianapolis (2-2) | -0.7 | 8.5-8.5 | 37.7 | 1.1
-19 | Carolina (2-2) | -1.0 | 8.2-8.8 | 46.2 | 1.4
-20 | LA Chargers (0-4) | -1.4 | 5.5-11.5 | 7.1 | 0.3
-21 | Green Bay (2-2) | -1.5 | 7.8-9.2 | 23.2 | 0.7
-22 | Tampa Bay (1-4) | -1.8 | 6.5-10.5 | 18.5 | 0.5
-23 | Pittsburgh (2-2) | -1.8 | 7.9-9.1 | 27.8 | 0.7
-24 | NY Giants (3-1) | -2.1 | 8.6-8.4 | 40.6 | 1.0
-25 | Atlanta (2-2) | -2.3 | 7.6-9.4 | 31.7 | 0.7
-26 | Washington (1-3) | -3.3 | 6.3-10.7 | 10.7 | 0.2
-27 | New Orleans (1-3) | -3.7 | 6.6-10.4 | 18.4 | 0.4
-28 | NY Jets (1-3) | -4.8 | 6.1-10.9 | 10.6 | 0.1
-29 | Cleveland (3-1) | -5.1 | 7.9-9.1 | 27.4 | 0.3
-30 | Tennessee (0-4) | -5.6 | 4.4-12.6 | 2.3 | 0.0
-31 | Arizona (1-3) | -6.6 | 5.0-12.0 | 2.2 | 0.0
-32 | Miami (0-4) | -9.1 | 3.3-13.7 | 0.9 | 0.0
+1 | Jacksonville (7-2) | 8.4 | 12.9-4.1 | 99.6 | 16.4
+2 | Buffalo (8-1) | 8.0 | 13.7-3.3 | 99.9 | 16.7
+3 | Cincinnati (7-2) | 6.0 | 12.8-4.2 | 98.7 | 9.2
+4 | LA Rams (6-4) | 5.8 | 10.1-6.9 | 52.5 | 4.4
+5 | San Francisco (8-1) | 5.8 | 13.1-3.9 | 97.8 | 13.3
+6 | Kansas City (7-2) | 5.7 | 11.9-5.1 | 97.3 | 6.8
+7 | Seattle (6-4) | 4.3 | 10.0-7.0 | 46.8 | 2.9
+8 | Detroit (7-2) | 4.2 | 11.8-5.2 | 86.5 | 6.5
+9 | Chicago (7-2) | 3.9 | 11.4-5.6 | 82.3 | 4.9
+10 | Minnesota (7-2) | 3.7 | 12.0-5.0 | 93.8 | 6.0
+11 | Denver (7-2) | 3.6 | 12.2-4.8 | 96.3 | 4.9
+12 | Houston (3-6) | 2.3 | 7.7-9.3 | 18.2 | 0.5
+13 | Green Bay (6-4) | 1.7 | 9.5-7.5 | 37.8 | 1.2
+14 | Tampa Bay (3-6) | 1.5 | 7.7-9.3 | 50.5 | 1.9
+15 | New England (5-5) | 0.7 | 8.6-8.4 | 46.8 | 0.7
+16 | Pittsburgh (6-3) | 0.2 | 10.1-6.9 | 73.3 | 0.9
+17 | Dallas (4-6) | 0.1 | 7.5-9.5 | 23.4 | 0.6
+18 | Baltimore (4-5) | -1.7 | 7.7-9.3 | 16.7 | 0.1
+19 | NY Giants (5-3) | -1.8 | 8.3-7.7 | 59.1 | 0.9
+20 | Washington (3-5) | -2.3 | 6.5-9.5 | 17.3 | 0.3
+21 | Carolina (4-5) | -2.4 | 7.4-9.6 | 35.1 | 0.5
+22 | Las Vegas (4-6) | -3.3 | 7.1-9.9 | 9.3 | 0.1
+23 | Philadelphia (2-7) | -4.1 | 5.2-11.8 | 1.9 | 0.0
+24 | Atlanta (3-7) | -4.1 | 5.8-11.2 | 6.6 | 0.1
+25 | New Orleans (3-6) | -4.3 | 5.9-11.1 | 8.6 | 0.1
+26 | LA Chargers (0-8) | -4.4 | 3.4-13.6 | 0.1 | 0.0
+27 | Indianapolis (3-7) | -4.6 | 5.6-11.4 | 1.1 | 0.0
+28 | Cleveland (6-4) | -4.6 | 8.8-8.2 | 42.6 | 0.1
+29 | NY Jets (2-8) | -6.3 | 4.4-12.6 | 0.1 | 0.0
+30 | Tennessee (1-8) | -7.1 | 3.3-13.7 | 0.0 | 0.0
+31 | Arizona (3-7) | -7.5 | 5.5-11.5 | 0.0 | 0.0
+32 | Miami (1-8) | -7.6 | 3.1-13.9 | 0.0 | 0.0
 
 ## This week's matchups (line, kickoff)
-Tampa Bay at Dallas (-9.5) | Thu 8:15pm
-Chicago (-1.5) at Green Bay | Sun 1:00pm
-Minnesota (-2.5) at New Orleans | Sun 1:00pm
-Houston (-6.5) at Tennessee | Sun 1:00pm
-Cincinnati (-7.5) at Miami | Sun 1:00pm
-NY Giants at Washington (-3.5) | Sun 1:00pm
-Indianapolis at Pittsburgh (-3) | Sun 1:00pm
-Cleveland at NY Jets (-2.5) | Sun 1:00pm
-Las Vegas at New England (-3.5) | Sun 1:00pm
-Denver (-3.5) at LA Chargers | Sun 4:05pm
-Detroit (-4.5) at Arizona | Sun 4:25pm
-San Francisco at Seattle (-3) | Sun 4:25pm
-Baltimore at Atlanta (-3) | Sun 8:20pm
-Buffalo at LA Rams (-3.5) | Mon 8:15pm
+Washington at NY Giants (-1.5) | Thu 8:15pm
+Miami at Indianapolis (-5.5) | Sun 1:00pm
+Minnesota at Green Bay (-2.5) | Sun 1:00pm
+Carolina (-1.5) at New Orleans | Sun 1:00pm
+Jacksonville (-10.5) at Tennessee | Sun 1:00pm
+Kansas City (-3) at Atlanta | Sun 1:00pm
+Houston (-3.5) at Cleveland | Sun 1:00pm
+Buffalo (-8.5) at NY Jets | Sun 1:00pm
+Seattle (-6.5) at Las Vegas | Sun 4:05pm
+LA Rams (-8.5) at Arizona | Sun 4:05pm
+San Francisco (-3.5) at Dallas | Sun 4:25pm
+Pittsburgh at Cincinnati (-4.5) | Sun 8:20pm
+LA Chargers at Baltimore (-5) | Mon 8:15pm

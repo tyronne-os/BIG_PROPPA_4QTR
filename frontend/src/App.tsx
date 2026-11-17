@@ -2,6 +2,7 @@ import NavBar from "./components/NavBar";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { readBackTarget, resolveSlug, type BackTarget } from "./playerNav";
+import { getStoredUser, me, type BooUser } from "./auth";
 import ReactFlow, { Background, Controls, MiniMap, type Edge, type EdgeTypes, type Node, type NodeTypes } from "reactflow";
 import "reactflow/dist/style.css";
 import AnimatedPulseEdge from "./AnimatedPulseEdge";
@@ -26,11 +27,14 @@ import MatchupOfTheDayPage from "./pages/MatchupOfTheDayPage";
 import NBAInsightsPage from "./pages/NBAInsightsPage";
 import LiveTicker from "./components/LiveTicker";
 import CollegeTab from "./components/CollegeTab";
+import SignupPage from "./pages/SignupPage";
+import LoginPage from "./pages/LoginPage";
+import BooksPage from "./pages/BooksPage";
 import { api } from "./api";
 import type { TicketCtx } from "./components/h2hShared";
 import type { ChartIndexRow, PlayerPropChart } from "./types";
 
-const VIEW_TABS = ["player", "leaders", "nba", "matchup-of-the-day", "nba-insights", "h2h", "matchups", "ramp", "college", "engine", "news", "queries", "myboo", "odds"] as const;
+const VIEW_TABS = ["player", "leaders", "nba", "matchup-of-the-day", "nba-insights", "h2h", "matchups", "ramp", "college", "engine", "news", "queries", "myboo", "odds", "books", "signup", "login"] as const;
 type ViewTab = (typeof VIEW_TABS)[number];
 
 const edgeTypes: EdgeTypes = { animatedPulse: AnimatedPulseEdge };
@@ -60,6 +64,15 @@ export default function App({ initialTab }: { initialTab?: ViewTab }) {
     return "leaders";
   });
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState<BooUser | null>(null);
+
+  // Restore auth session from localStorage on mount; verify with backend.
+  useEffect(() => {
+    const stored = getStoredUser();
+    setCurrentUser(stored);
+    if (stored?.email) me(stored.email).catch(() => {});
+  }, []);
+
   useEffect(() => { if (initialTab) setTab(initialTab); }, [initialTab]);
   useEffect(() => {
     // A slug URL like /p/202611121431-patrick-mahomes-kc is already the page's
@@ -293,7 +306,7 @@ export default function App({ initialTab }: { initialTab?: ViewTab }) {
         <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", background: "var(--bp-page-bg)", color: "var(--bp-fg)", position: "relative" }}>
           <div style={{ height: 8, flex: "0 0 8px" }} />
 
-          <NavBar activeTab={tab} />
+          <NavBar activeTab={tab} currentUser={currentUser} onLogout={() => { setCurrentUser(null); localStorage.removeItem("bp_user"); navigate("/"); }} />
 
           <div style={{ flex: 1, overflowY: "auto", padding: "4px 20px 20px", minHeight: 0 }}>
             {tab === "ramp" && <RampIndex />}
@@ -348,6 +361,9 @@ export default function App({ initialTab }: { initialTab?: ViewTab }) {
             {tab === "queries" && (cleared && results.length === 0 ? <QueriesTab results={[]} /> : <QueriesTab results={results} />)}
             {tab === "myboo" && <MyBooTab />}
             {tab === "odds" && <OddsTab />}
+            {tab === "books" && <BooksPage />}
+            {tab === "signup" && <SignupPage />}
+            {tab === "login" && <LoginPage />}
           </div>
 
           {tab !== "leaders" && tab !== "myboo" && (
