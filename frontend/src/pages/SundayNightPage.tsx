@@ -5,5 +5,5 @@
 import ParlaysPage from "./ParlaysPage";
 
 export default function SundayNightPage() {
-  return <ParlaysPage variant="sunday-night" />;
+  return <ParlaysPage />;
 }

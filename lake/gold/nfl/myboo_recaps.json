@@ -21942,5 +21942,292 @@
     }
    ]
   }
+ },
+ "MB-2026-WK10-SIM0147": {
+  "ticket_id": "MB-2026-WK10-SIM0147",
+  "name": "BEAST MODE \u00b7 beast_mode \u00b7 c49159",
+  "week": 10,
+  "season": "2026",
+  "order_type": "SIM",
+  "status": "SETTLED_LOSS",
+  "nugget": "Samaje Perine",
+  "stage": "FINAL",
+  "partial": null,
+  "setup": "I always read the defense first. PIT is a split defense, solid against the run and leaky against the pass, so the soft spot is the pass: 23rd of 32 against the pass (243.9 yards a game allowed on the Big Proppa blend, league average 225.0) and 12th against the run (107.0 allowed, league average 116.9).\n\nOffensive identity is where I build the case. CIN has been BALANCED through 8 games: 37.0 pass attempts and 22.1 rushes a game, 36.1 targets, a 63% pass rate.\n\nThe BEAST MODE thesis, leg by leg: Samaje Perine (CIN) over 14.5 rushing yards, on a 5.8 carries average; my number is 62% against 53% priced in, a 9.2-point edge.\n\nThe nugget of gold is Samaje Perine: PIT's run defense (12th of 32) gives the widest gap between price and probability on the board, and that is prospecting, not guessing. If this slip feeds us, that is the reason.\n\nPrice check: stacking the legs as independent gives 62.5% to cash, while the payout of +132 implies 43.1%. That is a positive-value ticket on my numbers, and it is logged either way so the process can be graded afterward.",
+  "facts": "Final: PIT 18, CIN 38.\n\nCIN threw 44 times and ran 20, with 42 targets, a 69% pass rate against 63% coming in, so the identity held. They produced 409 passing and 78 rushing yards.\n\nWhere we got it wrong: Samaje Perine finished with 14 rushing yards on 6 carries against his average of 5.8 (line 14.5) for a MISS. The defense played better than its numbers going in, which is the kind of miss that corrects the ranking.\n\nDefense report card: PIT's rush defense (12th of 32) was expected to allow 107 and allowed 78, 27% better than the rank said. These residuals go to the Tuesday batch to correct the rankings.",
+  "hindsight": {
+   "label": "SHIT",
+   "process_score": 0.0,
+   "process_ok": false,
+   "outcome": "SETTLED_LOSS",
+   "tags": [
+    "THESIS_BROKE",
+    "DEFENSE_BEHAVED"
+   ],
+   "text": "This was not rooted in science. The thesis broke on the facts, and the lesson is worth more than the stake.",
+   "line": "Hindsight: SHIT. This was not rooted in science. The thesis broke on the facts, and the lesson is worth more than the stake. Process score 0.0 (share of effort legs where both the defensive matchup and the player's usage played out the way I wrote them down; scoring legs are not graded)."
+  },
+  "word_count": 358,
+  "features": {
+   "legs": [
+    {
+     "player": "Samaje Perine",
+     "player_id": "00-0033526",
+     "team": "CIN",
+     "opp": "PIT",
+     "market": "rushyds",
+     "direction": "over",
+     "line": 14.5,
+     "odds": -114.0,
+     "prob": 0.625,
+     "implied": 0.5327,
+     "edge": 0.0923,
+     "attack_cat": "rush_yds",
+     "attack_rank": 12,
+     "attack_allowed": 107.0,
+     "attack_league": 116.9,
+     "defense": {
+      "games": 8,
+      "pass_yds": 242.0,
+      "rush_yds": 83.875,
+      "pass_yds_rank": 23,
+      "rush_yds_rank": 12,
+      "pass_yds_blend": 243.9,
+      "rush_yds_blend": 107.0,
+      "pass_yds_league": 225.0,
+      "rush_yds_league": 116.9
+     },
+     "components": {
+      "hit_rate": 0.5,
+      "usage": 0.492,
+      "matchup": 0.2912,
+      "recency_defense": 0.454,
+      "fantasy": 0.551,
+      "tr_power": 0.597
+     },
+     "jimmy_score": 0.481,
+     "usage_key": "car",
+     "usage_avg": 5.8,
+     "usage_games": 8,
+     "game_id": "2026_10_PIT_CIN"
+    }
+   ],
+   "game": null,
+   "defense_audit": [
+    {
+     "defense": "PIT",
+     "cat": "rush",
+     "rank": 12,
+     "expected": 107.0,
+     "actual": 78.0,
+     "ratio": 0.729
+    }
+   ],
+   "whatif": null,
+   "facts": [
+    {
+     "player": "Samaje Perine",
+     "market": "rushyds",
+     "status": "MISS",
+     "actual": 14.0,
+     "used": 6.0,
+     "usage_avg": 5.8,
+     "volume_held": true,
+     "env_held": false,
+     "thesis_held": false,
+     "miss_type": "DEFENSE_OVERPERFORMED",
+     "scrimmage": 39.0,
+     "cleared_at": null
+    }
+   ]
+  }
+ },
+ "MB-2026-WK10-SIM0148": {
+  "ticket_id": "MB-2026-WK10-SIM0148",
+  "name": "HOT BOYS \u00b7 hot_boys \u00b7 988d0c",
+  "week": 10,
+  "season": "2026",
+  "order_type": "SIM",
+  "status": "SETTLED_WIN",
+  "nugget": "Chase Brown",
+  "stage": "FINAL",
+  "partial": null,
+  "setup": "I always read the defense first. PIT is a split defense, solid against the run and leaky against the pass, so the soft spot is the pass: 23rd of 32 against the pass (243.9 yards a game allowed on the Big Proppa blend, league average 225.0) and 12th against the run (107.0 allowed, league average 116.9).\n\nOffensive identity is where I build the case. CIN has been BALANCED through 8 games: 37.0 pass attempts and 22.1 rushes a game, 36.1 targets, a 63% pass rate.\n\nThe HOT BOYS thesis, leg by leg: Chase Brown (CIN) over 3.5 receptions, on a 5.6 targets average; my number is 56% against 49% priced in, a 7.5-point edge.\n\nThe nugget of gold is Chase Brown: PIT's completion defense (22nd of 32) gives the widest gap between price and probability on the board, and that is prospecting, not guessing. If this slip feeds us, that is the reason.\n\nPrice check: stacking the legs as independent gives 56.0% to cash, while the payout of +159 implies 38.6%. That is a positive-value ticket on my numbers, and it is logged either way so the process can be graded afterward.",
+  "facts": "Final: PIT 18, CIN 38.\n\nCIN threw 44 times and ran 20, with 42 targets, a 69% pass rate against 63% coming in, so the identity held. They produced 409 passing and 78 rushing yards.\n\nWhere we got it right: Chase Brown finished with 8 receptions on 9 targets against his average of 5.6 (line 3.5) for a HIT.",
+  "hindsight": {
+   "label": "SCIENCE",
+   "process_score": 1.0,
+   "process_ok": true,
+   "outcome": "SETTLED_WIN",
+   "tags": [
+    "PROCESS_HELD"
+   ],
+   "text": "This was rooted in science: the defense and the usage did what I said they would, and the ticket cashed. That is a dinner indicator, and the nugget goes in the repeat pile.",
+   "line": "Hindsight: SCIENCE. This was rooted in science: the defense and the usage did what I said they would, and the ticket cashed. That is a dinner indicator, and the nugget goes in the repeat pile. Process score 1.0 (share of effort legs where both the defensive matchup and the player's usage played out the way I wrote them down; scoring legs are not graded)."
+  },
+  "word_count": 315,
+  "features": {
+   "legs": [
+    {
+     "player": "Chase Brown",
+     "player_id": "00-0038597",
+     "team": "CIN",
+     "opp": "PIT",
+     "market": "recs",
+     "direction": "over",
+     "line": 3.5,
+     "odds": 106.0,
+     "prob": 0.56,
+     "implied": 0.4854,
+     "edge": 0.0746,
+     "attack_cat": "completions",
+     "attack_rank": 22,
+     "attack_allowed": 21.5,
+     "attack_league": 20.6,
+     "defense": {
+      "games": 8,
+      "pass_yds": 242.0,
+      "rush_yds": 83.875,
+      "pass_yds_rank": 23,
+      "rush_yds_rank": 12,
+      "pass_yds_blend": 243.9,
+      "rush_yds_blend": 107.0,
+      "pass_yds_league": 225.0,
+      "rush_yds_league": 116.9
+     },
+     "components": {
+      "hit_rate": 0.5,
+      "usage": 0.504,
+      "matchup": 0.6844,
+      "recency_defense": 0.529,
+      "targets": 0.64,
+      "fantasy": 0.483,
+      "tr_power": 0.597
+     },
+     "jimmy_score": 0.572,
+     "usage_key": "tgt",
+     "usage_avg": 5.6,
+     "usage_games": 8,
+     "game_id": "2026_10_PIT_CIN"
+    }
+   ],
+   "game": null,
+   "defense_audit": [],
+   "whatif": null,
+   "facts": [
+    {
+     "player": "Chase Brown",
+     "market": "recs",
+     "status": "HIT",
+     "actual": 8.0,
+     "used": 9.0,
+     "usage_avg": 5.6,
+     "volume_held": true,
+     "env_held": true,
+     "thesis_held": true,
+     "miss_type": null,
+     "scrimmage": 83.0,
+     "cleared_at": null
+    }
+   ]
+  }
+ },
+ "MB-2026-WK10-SIM0149": {
+  "ticket_id": "MB-2026-WK10-SIM0149",
+  "name": "TOP GUN \u00b7 top_gun \u00b7 cfd161",
+  "week": 10,
+  "season": "2026",
+  "order_type": "SIM",
+  "status": "SETTLED_WIN",
+  "nugget": "Joe Burrow",
+  "stage": "FINAL",
+  "partial": null,
+  "setup": "I always read the defense first. PIT is a split defense, solid against the run and leaky against the pass, so the soft spot is the pass: 23rd of 32 against the pass (243.9 yards a game allowed on the Big Proppa blend, league average 225.0) and 12th against the run (107.0 allowed, league average 116.9).\n\nOffensive identity is where I build the case. CIN has been BALANCED through 8 games: 37.0 pass attempts and 22.1 rushes a game, 36.1 targets, a 63% pass rate.\n\nThe TOP GUN thesis, leg by leg: Joe Burrow (CIN) over 253.5 passing yards, on a 37.0 pass attempts average; my number is 60% against 53% priced in, a 7.2-point edge.\n\nThe nugget of gold is Joe Burrow: PIT's pass defense (23rd of 32) gives the widest gap between price and probability on the board, and that is prospecting, not guessing. If this slip feeds us, that is the reason.\n\nPrice check: stacking the legs as independent gives 60.5% to cash, while the payout of +132 implies 43.1%. That is a positive-value ticket on my numbers, and it is logged either way so the process can be graded afterward.",
+  "facts": "Final: PIT 18, CIN 38.\n\nCIN threw 44 times and ran 20, with 42 targets, a 69% pass rate against 63% coming in, so the identity held. They produced 409 passing and 78 rushing yards.\n\nWhere we got it right: Joe Burrow finished with 409 passing yards on 44 pass attempts against his average of 37.0 (line 253.5) for a HIT.\n\nDefense report card: PIT's pass defense (23rd of 32) was expected to allow 243.9 and allowed 409, 68% worse than the rank said. These residuals go to the Tuesday batch to correct the rankings.",
+  "hindsight": {
+   "label": "SCIENCE",
+   "process_score": 1.0,
+   "process_ok": true,
+   "outcome": "SETTLED_WIN",
+   "tags": [
+    "PROCESS_HELD"
+   ],
+   "text": "This was rooted in science: the defense and the usage did what I said they would, and the ticket cashed. That is a dinner indicator, and the nugget goes in the repeat pile.",
+   "line": "Hindsight: SCIENCE. This was rooted in science: the defense and the usage did what I said they would, and the ticket cashed. That is a dinner indicator, and the nugget goes in the repeat pile. Process score 1.0 (share of effort legs where both the defensive matchup and the player's usage played out the way I wrote them down; scoring legs are not graded)."
+  },
+  "word_count": 353,
+  "features": {
+   "legs": [
+    {
+     "player": "Joe Burrow",
+     "player_id": "00-0036442",
+     "team": "CIN",
+     "opp": "PIT",
+     "market": "passyds",
+     "direction": "over",
+     "line": 253.5,
+     "odds": -114.0,
+     "prob": 0.605,
+     "implied": 0.5327,
+     "edge": 0.0723,
+     "attack_cat": "pass_yds",
+     "attack_rank": 23,
+     "attack_allowed": 243.9,
+     "attack_league": 225.0,
+     "defense": {
+      "games": 8,
+      "pass_yds": 242.0,
+      "rush_yds": 83.875,
+      "pass_yds_rank": 23,
+      "rush_yds_rank": 12,
+      "pass_yds_blend": 243.9,
+      "rush_yds_blend": 107.0,
+      "pass_yds_league": 225.0,
+      "rush_yds_league": 116.9
+     },
+     "components": {
+      "hit_rate": 0.75,
+      "usage": 0.447,
+      "matchup": 0.6844,
+      "recency_defense": 0.529,
+      "fantasy": 0.409,
+      "tr_power": 0.597
+     },
+     "jimmy_score": 0.569,
+     "usage_key": "att",
+     "usage_avg": 37.0,
+     "usage_games": 8,
+     "game_id": "2026_10_PIT_CIN"
+    }
+   ],
+   "game": null,
+   "defense_audit": [
+    {
+     "defense": "PIT",
+     "cat": "pass",
+     "rank": 23,
+     "expected": 243.9,
+     "actual": 409.0,
+     "ratio": 1.677
+    }
+   ],
+   "whatif": null,
+   "facts": [
+    {
+     "player": "Joe Burrow",
+     "market": "passyds",
+     "status": "HIT",
+     "actual": 409.0,
+     "used": 44.0,
+     "usage_avg": 37.0,
+     "volume_held": true,
+     "env_held": true,
+     "thesis_held": true,
+     "miss_type": null,
+     "scrimmage": 8.0,
+     "cleared_at": null
+    }
+   ]
+  }
  }
 }

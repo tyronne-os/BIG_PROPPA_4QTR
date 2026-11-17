@@ -6,9 +6,7 @@ import TicketCard, { fromThemed } from "../components/TicketCard";
 import MyTickets from "../components/MyTickets";
 import EarlyHero from "../components/EarlyHero";
 import { api, h2hToken } from "../api";
-import Throwdown, { type ThrowdownData } from "./Throwdown";
-import { type MatchupData } from "./MatchupHeatMap";
-import type { EarlyResponse, ParlaySlip } from "../types";
+import { type EarlyResponse, ParlaySlip } from "../types";
 import { PlayerLink } from "../playerLink";
 
 const STORAGE_KEY = "bp_parlay_unlocked";
@@ -108,13 +106,10 @@ function PasscodeGate({ onUnlock }: { onUnlock: () => void }) {
  * >=85% probability filter and only includes legs with a real FanDuel
  * price -- nothing here is placeholder.
  */
-/** Shared implementation — variant controls which night's deep-dive API is called */
-export default function ParlaysPage({ variant = "thursday" }: { variant?: "thursday" | "monday" | "sunday-night" | "parlay" }) {
+/** Parlays page — NFL morning/evening parlay windows from /api/chart/parlays/all */
+export default function ParlaysPage() {
   const [slips, setSlips] = useState<Record<string, ParlaySlip> | null>(null);
   const [unlocked, setUnlocked] = useState(getUnlocked);
-  const [td, setTd] = useState<ThrowdownData | null>(null);
-  const [showRegular, setShowRegular] = useState(false);
-  const [mu, setMu] = useState<MatchupData | null>(null);
   const [morning, setMorning] = useState<EarlyResponse | null>(null);
   const [evening, setEvening] = useState<EarlyResponse | null>(null);
 
@@ -122,9 +117,6 @@ export default function ParlaysPage({ variant = "thursday" }: { variant?: "thurs
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", "dark");
     api.parlaysAll().then(setSlips).catch(() => setSlips(null));
-    api.matchup(variant === "parlay" ? "thursday" : variant).then((d: MatchupData) => setMu(d?.active ? d : null)).catch(() => setMu(null));
-    const deepDive = variant === "monday" ? api.monday() : variant === "sunday-night" ? api.sundayNight() : api.throwdown();
-    deepDive.then((d: ThrowdownData) => setTd(d?.active ? d : null)).catch(() => setTd(null));
 
     // NFL morning / evening parlay windows. NFL rule: every slip must carry at
     // least two high-probability legs before it's shown.
@@ -139,7 +131,7 @@ export default function ParlaysPage({ variant = "thursday" }: { variant?: "thurs
     };
     loadWindow("early", setMorning);
     loadWindow("evening", setEvening);
-  }, [variant]);
+  }, []);
 
   const wager = 5;
 
@@ -180,7 +172,7 @@ export default function ParlaysPage({ variant = "thursday" }: { variant?: "thurs
       </div>
 
       {/* Full nav menu */}
-      <NavBar activeTab={variant === "monday" ? "monday" : variant === "sunday-night" ? "sunday-night" : variant === "parlay" ? "parlay" : "throwdown"} />
+      <NavBar activeTab="parlay" />
 
       {/* Morning / evening NFL parlay windows — real tickets from the lake's
          Big Proppa Line. NFL rule: every slip carries at least two legs, so a
@@ -207,21 +199,7 @@ export default function ParlaysPage({ variant = "thursday" }: { variant?: "thurs
         {/* Passcode gate — only blocks the bets section */}
         {!unlocked && <PasscodeGate onUnlock={() => setUnlocked(true)} />}
 
-        {unlocked && td?.archived && !showRegular && (
-          <div style={{ alignSelf: "center", padding: "8px 18px", borderRadius: 999, border: "1px solid #6b4a1c", background: "rgba(201,165,78,0.12)", color: "#d9b45a", fontSize: 12, fontWeight: 800, letterSpacing: "0.12em", textAlign: "center" }}>
-            FROM {variant === "monday" ? "LAST MONDAY NIGHT" : variant === "sunday-night" ? "LAST SUNDAY NIGHT" : "LAST THURSDAY NIGHT"} · {td.game.away} @ {td.game.home} · WEEK {td.game.week} · SAVED AS IT STOOD BEFORE KICKOFF
-          </div>
-        )}
-        {unlocked && td && !showRegular && <Throwdown data={td} matchup={mu} />}
-        {unlocked && td && (
-          <button onClick={() => setShowRegular((v) => !v)} style={{ alignSelf: "center", height: 34, padding: "0 16px", borderRadius: 999, border: "1px solid #6b4a1c", background: "transparent", color: "#d9b45a", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
-            {showRegular ? (variant === "sunday-night" ? "BACK TO SUNDAY NIGHT" : "BACK TO THE THROWDOWN") : "SEE THE FULL-WEEK SLIPS"}
-          </button>
-        )}
-
-        {unlocked && !slips && <div style={{ color: "var(--bp-muted)" }}>Loading tonight&apos;s tickets...</div>}
-
-        {unlocked && slips && (!td || showRegular) && (
+        {unlocked && slips && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(380px,1fr))", gap: 18, alignItems: "start" }}>
             {Object.values(slips).map((s) => (
               s.legs.length > 0 ? <TicketCard key={s.id} slip={fromThemed(s)} /> : <Ticket key={s.id} slip={s} />
@@ -229,7 +207,7 @@ export default function ParlaysPage({ variant = "thursday" }: { variant?: "thurs
           </div>
         )}
 
-        {unlocked && <MyTickets day={variant === "monday" ? "monday" : variant === "sunday-night" ? "sunday" : "thursday"} />}
+        {unlocked && <MyTickets day="thursday" />}
       </div>
     </div>
   );

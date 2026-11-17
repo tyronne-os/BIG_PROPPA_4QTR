@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import App from "./App";
 import ParlaysPage from "./pages/ParlaysPage";
-import MondayPage from "./pages/MondayPage";
 import SundayNightPage from "./pages/SundayNightPage";
 import SundayParlaysPage from "./pages/SundayParlaysPage";
 import ReportPage from "./pages/ReportPage";
@@ -37,9 +36,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="/throwdown" element={<ParlaysPage variant="thursday" />} />
-          <Route path="/parlay"   element={<ParlaysPage variant="parlay" />} />
-          <Route path="/monday"        element={<MondayPage />} />
+          <Route path="/parlay" element={<ParlaysPage />} />
           <Route path="/sunday-night" element={<SundayNightPage />} />
           <Route path="/parlays"   element={<SundayParlaysPage />} />
           <Route path="/report"    element={<ReportPage />} />
@@ -49,7 +46,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           {(["player", "leaders", "h2h", "matchups", "ramp", "college", "engine", "news", "queries", "myboo", "odds"] as const).map((t) => (
             <Route key={t} path={`/${t}`} element={<App initialTab={t} />} />
           ))}
-          <Route path="*" element={<Navigate to="/throwdown" replace />} />
+          <Route path="*" element={<Navigate to="/leaders?cat=targets" replace />} />
           <Route path="/p/:slug" element={<App initialTab="player" />} />
         </Routes>
       </BrowserRouter>

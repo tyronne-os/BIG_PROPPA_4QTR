@@ -70,7 +70,7 @@ export default function NavBar({ activeTab, currentUser, onLogout }: NavBarProps
     : p.startsWith("/matchup-of-the-day") ? "motd"
     : p.startsWith("/nba-insights") ? "insights"
     : p.startsWith("/h2h") ? "h2h"
-    : p === "/parlay" || p === "/throwdown" || p === "/monday" || p === "/sunday-night" || p === "/parlays" ? "parlay"
+    : p === "/parlay" || p === "/parlays" ? "parlay"
     : p === "/books" ? "books"
     : p.startsWith("/myboo") ? "myboo"
     : p.startsWith("/betterverse") ? "betterverse"

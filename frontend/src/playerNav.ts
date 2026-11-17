@@ -31,10 +31,8 @@ const SLUG_REGISTRY_KEY = "bp_player_slug_registry";
 
 /** The pages a player can be opened from, and the label the back button shows. */
 const PAGE_LABELS: Record<string, string> = {
-  "/throwdown": "Throwdown",
   "/parlay": "Parlay",
   "/parlays": "Parlays",
-  "/monday": "Monday",
   "/sunday-night": "Sunday Night",
   "/report": "Report",
   "/leaders": "Leaders",

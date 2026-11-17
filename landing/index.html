@@ -220,7 +220,7 @@ a:hover{color:#f1dc92}
             <span id="tn-eyebrow" style="font-family:var(--font-mono);font-size:11px;letter-spacing:.32em;color:#6e6878">LIVE · REFRESHES EVERY FEW MINUTES</span>
             <span id="tn-title" style="font-size:clamp(28px,3.6vw,46px);line-height:.95;font-weight:900;letter-spacing:-0.02em;text-transform:uppercase;background:linear-gradient(180deg,#f7e7a6 0%,#d9b45a 40%,#8a6224 58%,#f1dc92 100%);-webkit-background-clip:text;background-clip:text;color:transparent">Today's parlays</span>
           </div>
-          <a id="tn-open" href="http://localhost:8085/monday" style="padding:8px 16px;border:1px solid #d9b45a;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.08em;color:#d9b45a;text-decoration:none">OPEN FULL PAGE ↗</a>
+          <a id="tn-open" href="http://localhost:8085/parlay" style="padding:8px 16px;border:1px solid #d9b45a;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.08em;color:#d9b45a;text-decoration:none">OPEN FULL PAGE ↗</a>
         </div>
         <iframe id="tn-frame" title="Today's parlays" src="about:blank" style="width:100%;height:min(88vh,1000px);border:1px solid #2a1e36;border-radius:20px;background:#0b0512"></iframe>
       </div>
@@ -530,9 +530,9 @@ class Component extends DCLogic {
    schedule (today counts); each day maps to its parlay page. Before the API answers, the weekday picks a sensible default. */
 (function () {
   try {
-    var PAGE = { THUR: ['/throwdown', 'THURSDAY'], SUN: ['/parlays', 'SUNDAY'], MON: ['/monday', 'MONDAY NIGHT'], FRI: ['/throwdown', 'FRIDAY'], SAT: ['/parlays', 'SATURDAY'] };
+    var PAGE = { THUR: ['/parlay', 'THURSDAY'], SUN: ['/parlays', 'SUNDAY'], FRI: ['/parlay', 'FRIDAY'], SAT: ['/parlays', 'SATURDAY'] };
     var wd = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago', weekday: 'long' });
-    var guess = { Monday: 'MON', Tuesday: 'THUR', Wednesday: 'THUR', Thursday: 'THUR', Friday: 'SUN', Saturday: 'SUN', Sunday: 'SUN' }[wd] || 'THUR';
+    var guess = { Monday: 'THUR', Tuesday: 'THUR', Wednesday: 'THUR', Thursday: 'THUR', Friday: 'SUN', Saturday: 'SUN', Sunday: 'SUN' }[wd] || 'THUR';
     var cur = { page: PAGE[guess], note: '' };
     var set = function () {
       var f = document.getElementById('tn-frame');

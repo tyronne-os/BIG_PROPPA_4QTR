@@ -88,7 +88,7 @@ export default function App({ initialTab }: { initialTab?: ViewTab }) {
   const [playerMarket, setPlayerMarket] = useState<string | undefined>(() => query("market"));
   const [fromTicket, setFromTicket] = useState(() => query("from") === "ticket");
   // The return target for the player page's "Back" button — set when leaving a
-  // Leaders/Parlay/Throwdown page, and restored when the player page mounts.
+  // Leaders/Parlay page, and restored when the player page mounts.
   const [backTarget, setBackTarget] = useState<BackTarget | null>(null);
   // Direct entry to /p/<slug>: resolve the slug to its player id + market.
   // Session registry first (instant), backend registry as the fallback so a
@@ -354,7 +354,7 @@ export default function App({ initialTab }: { initialTab?: ViewTab }) {
               />
             )}
             {tab === "matchup-of-the-day" && <MatchupOfTheDayPage />}
-            {/* parlay tab removed — THROWDOWN THURSDAY is now a standalone page at /throwdown */}
+            {/* parlay tab removed — THROWDOWN THURSDAY retired in Reform School */}
             {tab === "engine" && <EngineTab />}
             {tab === "news" && <NewsTab />}
             {tab === "matchups" && <MatchupsTab />}
