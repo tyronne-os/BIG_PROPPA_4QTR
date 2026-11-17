@@ -105,95 +105,109 @@ def attach_books(app: FastAPI) -> None:
         max_rank: int | None = None,
     ):
         """
-        Player props with best book price + team target rank.
+        Player props from NBA player_prop_correlation + matchup_correlation.
 
         Query params:
-          week        — filter to props from games in this week (uses schedule gsis join)
-          market      — rushyds | recyds | recs | passyds | passtd | anytd | firsttd | lasttd | any
-          min_rank    — only show players rank_on_team >= N (e.g. 2 = 2nd/3rd most targeted)
-          max_rank    — only show players rank_on_team <= N
+          week        — filter to props from games in this week
+          market      — pts | reb | ast | any
         """
-        rows = _read("prop_best_price")
-        usage = _usage_index()
-        sched = _schedule_index()
+        GOLD_NBA = Path(__file__).resolve().parent.parent / "lake" / "gold" / "nba"
+
+        def _read_nba(name: str) -> list[dict]:
+            path = GOLD_NBA / f"{name}.csv"
+            if not path.exists():
+                return []
+            with path.open(newline="", encoding="utf-8") as fh:
+                return list(csv.DictReader(fh))
+
+        props = _read_nba("nba_player_prop_correlation")
+        matchups = _read_nba("nba_matchup_correlation")
+
+        # Index matchups by game_id + team
+        mu_index: dict[str, dict] = {}
+        for m in matchups:
+            key = (m.get("game_id"), m.get("team"))
+            mu_index[key] = m
 
         out = []
-        for r in rows:
-            mslug = (r.get("market_slug") or "").lower()
+        for r in props:
+            mslug = (r.get("stat") or "").lower()
             if market and market != "any" and mslug != market.lower():
                 continue
 
-            name = r.get("player_name") or ""
-            u = usage.get(data.normalize_name(name))
-            rank = int(u.get("rank_on_team")) if u and u.get("rank_on_team") else None
-
-            if min_rank is not None and (rank is None or rank < min_rank):
-                continue
-            if max_rank is not None and (rank is not None and rank > max_rank):
-                continue
-
+            name = r.get("name") or ""
             team = (r.get("team") or "").upper()
-            line = r.get("line")
-            over_price = r.get("best_over_price")
-            over_book = r.get("best_over_book")
-            under_price = r.get("best_under_price")
-            under_book = r.get("best_under_book")
+            game_id = r.get("game_id") or ""
 
-            dec_over = _american_to_decimal(over_price)
-            dec_under = _american_to_decimal(under_price)
+            # Matchup context
+            mu = mu_index.get((game_id, team)) or mu_index.get((game_id, ""))
+            team_tier = "Green" if (mu and mu.get("good_vs_bad_signal", "").startswith("GOOD")) else "Crimson" if (mu and mu.get("good_vs_bad_signal", "").startswith("BAD")) else "Orange"
 
-            # matchup context from schedule (by gsis game_id)
-            gsis = r.get("game_id")
-            srow = sched.get(gsis) if gsis else None
-            matchup = None
-            spread = total = None
-            if srow:
-                matchup = f"{srow.get('away_team')} @ {srow.get('home_team')}"
-                try:
-                    spread = float(srow.get("spread_line")) if srow.get("spread_line") else None
-                except (TypeError, ValueError):
-                    spread = None
-                try:
-                    total = float(srow.get("total_line")) if srow.get("total_line") else None
-                except (TypeError, ValueError):
-                    total = None
+            # SFS Doubloon tier from confidence + team tier
+            try:
+                conf = float(r.get("prop_confidence") or 0)
+            except (TypeError, ValueError):
+                conf = 0.0
 
-            # ATS trend for the player's team
-            ats = _ats_index().get(team, {})
-            cover_pct_5 = ats.get("cover_pct_last_5")
-            cover_pct_10 = ats.get("cover_pct_last_10")
+            if team_tier == "Green" and conf >= 0.85:
+                doubloon = "green"
+            elif team_tier == "Crimson" or conf < 0.75:
+                doubloon = "crimson"
+            else:
+                doubloon = "orange"
+
+            # Safe bet label
+            if team_tier == "Green" and conf >= 0.85:
+                safe_bet = f"OVER {r.get('line')}" if r.get("line") else "OVER"
+            elif conf >= 0.50:
+                safe_bet = "OVER prop"
+            else:
+                safe_bet = "No bet"
+
+            # Justification (400 chars max)
+            opp_def = r.get("opp_def_pts_allowed") or r.get("opp_def_reb_allowed") or r.get("opp_def_ast_allowed") or "—"
+            edge = r.get("usage_matchup_edge") or "—"
+            justification = (
+                f"{name} ({team}) vs {r.get('opponent') or '—'}. "
+                f"Season avg: {r.get('season_pts') or r.get('season_reb') or r.get('season_ast') or '—'}. "
+                f"Opponent allows {opp_def} per game. Matchup edge: {edge}. "
+                f"Prop confidence: {conf}. {mu.get('good_vs_bad_signal', 'N/A') if mu else 'N/A'}."
+            )[:400]
+
+            dec_over = _american_to_decimal(r.get("best_over_price") if r.get("best_over_price") else None)
 
             out.append({
                 "player_name": name,
+                "player_id": r.get("athlete_id"),
                 "team": team,
+                "position": r.get("position") or "",
                 "market_slug": mslug,
-                "market_label": data.PROP_LABELS.get(mslug, mslug.upper()),
-                "line": line,
-                "rank_on_team": rank,
-                "rank_label": (
-                    "1st most targeted" if rank == 1 else
-                    "2nd most targeted" if rank == 2 else
-                    "3rd most targeted" if rank == 3 else
-                    f"#{rank}" if rank else "—"
-                ),
-                "best_over_price": over_price,
-                "best_over_book": over_book,
+                "market_label": mslug.upper(),
+                "line": r.get("line") or "—",
+                "rank_on_team": None,
+                "rank_label": "",
+                "best_over_price": r.get("best_over_price") or "—",
+                "best_over_book": r.get("best_over_book") or "—",
                 "best_over_decimal": dec_over,
                 "best_over_payout_5": _payout(5, dec_over),
-                "best_under_price": under_price,
-                "best_under_book": under_book,
-                "best_under_decimal": dec_under,
-                "best_under_payout_5": _payout(5, dec_under),
-                "matchup": matchup,
-                "spread": spread,
-                "total": total,
-                "cover_pct_last_5": cover_pct_5,
-                "cover_pct_last_10": cover_pct_10,
-                "is_second_or_third_target": rank in (2, 3),
+                "best_under_price": r.get("best_under_price") or "—",
+                "best_under_book": r.get("best_under_book") or "—",
+                "best_under_decimal": _american_to_decimal(r.get("best_under_price") if r.get("best_under_price") else None),
+                "best_under_payout_5": _payout(5, _american_to_decimal(r.get("best_under_price") if r.get("best_under_price") else None)),
+                "matchup": f"{r.get('away_team') or ''} @ {r.get('home_team') or ''}" if r.get('away_team') else f"{team} @ {r.get('opponent') or '—'}",
+                "spread": None,
+                "total": None,
+                "cover_pct_last_5": None,
+                "cover_pct_last_10": None,
+                "is_second_or_third_target": False,
+                "sfs_doubloon": doubloon,
+                "matchup_grade": team_tier,
+                "safe_bet": safe_bet,
+                "justification": justification,
             })
 
-        # Sort: 2nd/3rd targets first (Chase Brown principle), then by best payout
-        out.sort(key=lambda x: (not x["is_second_or_third_target"], -(x["best_over_payout_5"] or 0)))
+        # Sort: Green doubloons first, then by confidence
+        out.sort(key=lambda x: (x["sfs_doubloon"] != "green", -(float(x.get("prop_confidence") or 0))))
         return {
             "count": len(out),
             "props": out,
@@ -369,3 +383,76 @@ def attach_books(app: FastAPI) -> None:
             })
         out.sort(key=lambda x: -(x["best_over_payout_5"] or 0))
         return {"count": len(out), "watching": out}
+
+
+def _player_doubloon_tier(rank: int | None, cover_pct_5: str | None) -> str:
+    """SFS Doubloon tier for a player based on team cover pct and target rank."""
+    try:
+        cp = float(cover_pct_5) if cover_pct_5 else 50.0
+    except (TypeError, ValueError):
+        cp = 50.0
+    # Green = execute: good team cover pct + good rank
+    if cp >= 60 and rank in (1, 2, 3):
+        return "green"
+    # Crimson = lockout: bad team cover pct or terrible rank
+    if cp < 40 or rank is None:
+        return "crimson"
+    return "orange"
+
+
+def _matchup_grade(cover_pct_5: str | None, spread: float | None) -> str:
+    """Matchup grade A+ through F based on team cover pct and spread."""
+    try:
+        cp = float(cover_pct_5) if cover_pct_5 else 50.0
+    except (TypeError, ValueError):
+        cp = 50.0
+    if cp >= 70:
+        return "A+"
+    if cp >= 60:
+        return "A"
+    if cp >= 55:
+        return "B+"
+    if cp >= 50:
+        return "B"
+    if cp >= 45:
+        return "C+"
+    if cp >= 40:
+        return "C"
+    return "D"
+
+
+def _safe_bet_label(rank: int | None, cover_pct_5: str | None) -> str:
+    """Safe bet text for the SFS safe bet column."""
+    try:
+        cp = float(cover_pct_5) if cover_pct_5 else 50.0
+    except (TypeError, ValueError):
+        cp = 50.0
+    if cp >= 60 and rank in (1, 2):
+        return "Anytime TD"
+    if cp >= 60:
+        return "OVER prop"
+    if cp >= 50:
+        return "Under prop"
+    return "No bet"
+
+
+def _player_justification(name: str, team: str, mslug: str, rank: int | None,
+                          cover_pct_5: str | None, spread: float | None) -> str:
+    """400-char justification for the prediction."""
+    rank_txt = f"#{rank} most targeted on {team}" if rank else f"unranked on {team}"
+    try:
+        cp = float(cover_pct_5) if cover_pct_5 else 50.0
+    except (TypeError, ValueError):
+        cp = 50.0
+    tier_txt = (
+        "Green Doubloon (Execute)" if cp >= 60 and rank in (1, 2, 3)
+        else "Crimson Doubloon (Lockout)" if cp < 40 or rank is None
+        else "Orange Doubloon (Pivot)"
+    )
+    spread_txt = f", spread {spread}" if spread is not None else ""
+    return (
+        f"{name} ({rank_txt}). Team cover pct last 5: {cp}%. "
+        f"SFS tier: {tier_txt}. Market: {mslug}. "
+        f"Matchup analysis indicates {'favorable' if cp >= 60 else 'challenging'} conditions "
+        f"{spread_txt}. Only bet if player is healthy and active at game time."
+    )
