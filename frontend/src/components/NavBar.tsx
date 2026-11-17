@@ -1,35 +1,17 @@
 /**
- * NavBar — SaaS-shaped primary navigation with grouped sections.
- * Groups: CORE (prediction boards), BETTING (slip tools), ANALYTICS (deep research).
+ * NavBar — simplified SaaS nav.
+ * 5 main pages: Landing, Leaders, The Books, MY BOO, Better-Verse.
+ * Everything else lives in the Footer.
  */
 import { Link, useLocation } from "react-router-dom";
 import type { BooUser } from "../auth";
 
-const GROUPED_TABS = [
-  {
-    group: "CORE",
-    tabs: [
-      { id: "leaders", label: "LEADERS", href: "/leaders?cat=targets" },
-      { id: "nba",     label: "NBA",     href: "/nba?cat=points" },
-      { id: "motd",    label: "MOTD",    href: "/matchup-of-the-day" },
-      { id: "insights", label: "INSIGHTS", href: "/nba-insights" },
-    ],
-  },
-  {
-    group: "BETTING",
-    tabs: [
-      { id: "h2h",     label: "H2H",     href: "/h2h?cat=targets" },
-      { id: "parlay",  label: "PARLAY",  href: "/parlay" },
-      { id: "books",   label: "BOOKS",   href: "/books" },
-    ],
-  },
-  {
-    group: "ANALYTICS",
-    tabs: [
-      { id: "betterverse", label: "BETTER-VERSE", href: "/betterverse" },
-      { id: "moneyball", label: "MONEY BALL", href: "/moneyball" },
-    ],
-  },
+const MAIN_TABS = [
+  { id: "home",   label: "LANDING",   href: "/home/index.html" },
+  { id: "leaders", label: "LEADERS",  href: "/leaders?cat=targets" },
+  { id: "books",   label: "BOOKS",    href: "/books" },
+  { id: "myboo",   label: "MY BOO",   href: "/myboo" },
+  { id: "betterverse", label: "BETTER-VERSE", href: "/betterverse" },
 ] as const;
 
 type NavBarProps = { activeTab?: string; currentUser?: BooUser | null; onLogout?: () => void };
@@ -56,12 +38,6 @@ function makePill(isActive: boolean, isBoo: boolean) {
   };
 }
 
-const groupLabel = () => ({
-  fontSize: 10, fontWeight: 900, letterSpacing: "0.18em",
-  color: "#8a8290", textTransform: "uppercase", marginBottom: 6,
-  display: "block", marginLeft: 6,
-});
-
 export default function NavBar({ activeTab, currentUser, onLogout }: NavBarProps) {
   const location = useLocation();
   const p = location.pathname;
@@ -77,7 +53,7 @@ export default function NavBar({ activeTab, currentUser, onLogout }: NavBarProps
     : p.startsWith("/moneyball") ? "moneyball"
     : p === "/signup" ? "signup"
     : p === "/login" ? "login"
-    : "");
+    : "home");
 
   const authPills = currentUser ? (
     <>
@@ -101,22 +77,19 @@ export default function NavBar({ activeTab, currentUser, onLogout }: NavBarProps
     }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 10 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <a href="/home/index.html" style={{ ...makePill(false, false), fontWeight: 800, fontSize: 13 }}>HOME</a>
+          <a href="/home/index.html" style={{ ...makePill(currentTab === "home", false), fontWeight: 800, fontSize: 13 }}>HOME</a>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
           {authPills}
         </div>
       </div>
-      {GROUPED_TABS.map(({ group, tabs }) => (
-        <div key={group} style={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 2 }}>
-          <span style={groupLabel()}>{group}</span>
-          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {tabs.map(({ id, label, href }) => (
-              <Link key={id} to={href} style={makePill(id === currentTab, false)}>{label}</Link>
-            ))}
-          </div>
-        </div>
-      ))}
+
+      {/* 5 main tabs only */}
+      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+        {MAIN_TABS.map(({ id, label, href }) => (
+          <Link key={id} to={href} style={makePill(currentTab === id, id === "myboo")}>{label}</Link>
+        ))}
+      </div>
     </div>
   );
 }

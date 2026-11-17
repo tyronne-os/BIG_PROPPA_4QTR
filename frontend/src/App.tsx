@@ -9,6 +9,7 @@ import AnimatedPulseEdge from "./AnimatedPulseEdge";
 import LakeCanvasNode, { type LakeCanvasNodeData } from "./components/LakeCanvasNode";
 import Header from "./components/Header";
 import Composer from "./components/Composer";
+import Footer from "./components/Footer";
 import AdminPanel from "./components/AdminPanel";
 import PlayerTab from "./components/PlayerTab";
 import LeadersTab from "./components/LeadersTab";
@@ -391,6 +392,7 @@ export default function App({ initialTab }: { initialTab?: ViewTab }) {
             <JimmyPanel onClose={() => setJimmyPanelOpen(false)} />
           )}
           {booPanelOpen && <BooAgentPanel onClose={() => setBooPanelOpen(false)} />}
+          <Footer />
         </div>
       </div>
     </div>
